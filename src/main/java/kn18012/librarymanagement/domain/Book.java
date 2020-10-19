@@ -25,7 +25,7 @@ public class Book {
     @OneToMany(targetEntity = Loan.class, cascade = CascadeType.ALL, mappedBy = "book")
     private Set<Loan> loans = new HashSet<>();
 
-    @Column(name = "genre")
+    @Column(name = "genre", length = 30)
     private String genre;
 
     @Lob

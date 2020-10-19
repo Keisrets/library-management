@@ -18,10 +18,10 @@ public class User {
     @Column(name = "last_name", length = 30)
     private String lastName;
 
-    @Column(name = "email", length = 60)
+    @Column(name = "email", length = 80)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", length = 32)
     private String password;
 
     @ManyToOne
