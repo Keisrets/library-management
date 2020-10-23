@@ -4,10 +4,7 @@ import kn18012.librarymanagement.domain.User;
 import kn18012.librarymanagement.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/lib-admin")
@@ -20,7 +17,8 @@ public class AdminController {
     }
 
     @GetMapping()
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute("users", userService.findAll());
         return "adm/index";
     }
 
@@ -35,4 +33,24 @@ public class AdminController {
         userService.saveLibrarian(librarian);
         return "redirect:/lib-admin";
     }
+
+    @GetMapping("/edit-lib/{libId}")
+    public String librarianEditView(@PathVariable("libId") Long id, Model model) {
+        model.addAttribute("librarian", userService.findById(id));
+        return "adm/edit-user";
+    }
+
+    @PostMapping("/update-lib/{libId}")
+    public String update(@PathVariable("libId") Long id, @ModelAttribute User user) {
+        userService.updateLibrarian(id, user);
+        return "redirect:/lib-admin";
+    }
+
+    @DeleteMapping
+    @RequestMapping("/delete-lib/{librarianId}")
+    public String delete(@PathVariable("librarianId") Long id) {
+        userService.deleteById(id);
+        return "redirect:/lib-admin";
+    }
+
 }
