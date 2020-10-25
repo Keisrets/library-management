@@ -22,33 +22,35 @@ public class AdminController {
         return "adm/index";
     }
 
-    @GetMapping("/new-lib")
+    @GetMapping("/new-user")
     public String addLibrarianView(Model model) {
-        model.addAttribute("librarian", new User());
-        return "adm/new-librarian";
+        model.addAttribute("user", new User());
+        model.addAttribute("roles", userService.findAllRoles());
+        return "adm/new-user";
     }
 
-    @PostMapping("/create-lib")
-    public String createLibrarian(@ModelAttribute User librarian) {
-        userService.saveLibrarian(librarian);
+    @PostMapping("/create-user")
+    public String createLibrarian(@ModelAttribute User user) {
+        userService.saveUser(user, user.getRole().getRole());
         return "redirect:/lib-admin";
     }
 
-    @GetMapping("/edit-lib/{libId}")
-    public String librarianEditView(@PathVariable("libId") Long id, Model model) {
-        model.addAttribute("librarian", userService.findById(id));
+    @GetMapping("/edit-user/{userId}")
+    public String librarianEditView(@PathVariable("userId") Long id, Model model) {
+        model.addAttribute("roles", userService.findAllRoles());
+        model.addAttribute("user", userService.findById(id));
         return "adm/edit-user";
     }
 
-    @PostMapping("/update-lib/{libId}")
-    public String update(@PathVariable("libId") Long id, @ModelAttribute User user) {
-        userService.updateLibrarian(id, user);
+    @PostMapping("/update-user/{userId}")
+    public String update(@PathVariable("userId") Long id, @ModelAttribute User user) {
+        userService.updateUser(id, user);
         return "redirect:/lib-admin";
     }
 
     @DeleteMapping
-    @RequestMapping("/delete-lib/{librarianId}")
-    public String delete(@PathVariable("librarianId") Long id) {
+    @RequestMapping("/delete-user/{userId}")
+    public String delete(@PathVariable("userId") Long id) {
         userService.deleteById(id);
         return "redirect:/lib-admin";
     }
