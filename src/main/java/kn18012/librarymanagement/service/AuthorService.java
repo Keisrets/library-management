@@ -9,4 +9,11 @@ public interface AuthorService {
     List<Author> findAllAuthors();
 
     Author findAuthorById(Long id);
+
+    Author save(Author author);
+
+    Author update(Long id, Author author);
+
+    void deleteAuthorById(Long id);
+
 }
