@@ -7,6 +7,8 @@ import kn18012.librarymanagement.repository.BookRepository;
 import kn18012.librarymanagement.service.LibrarianService;
 import org.springframework.stereotype.Service;
 
+import java.util.*;
+
 @Service
 public class LibrarianServiceImpl implements LibrarianService {
 
@@ -42,8 +44,13 @@ public class LibrarianServiceImpl implements LibrarianService {
     }
 
     @Override
-    public Author update(Author author) {
-        return null;
+    public Author update(Long id, Author author) {
+        Author toUpdate = authorRepository.findById(id).orElse(null);
+        toUpdate.setFirstName(author.getFirstName());
+        toUpdate.setLastName(author.getLastName());
+        toUpdate.setBooks(author.getBooks());
+
+        return authorRepository.save(toUpdate);
     }
 
     @Override
@@ -52,9 +59,7 @@ public class LibrarianServiceImpl implements LibrarianService {
     }
 
     @Override
-    public void delete(Author author) {
-        authorRepository.delete(author);
-    }
+    public void delete(Author author) {}
 
     @Override
     public void deleteBookById(Long id) {
@@ -63,6 +68,18 @@ public class LibrarianServiceImpl implements LibrarianService {
 
     @Override
     public void deleteAuthorById(Long id) {
-        authorRepository.deleteById(id);
+        Author toDelete = authorRepository.findById(id).orElse(null);
+        Set<Book> bookIds = toDelete.getBooks();
+
+        for (Book book : bookIds) {
+            Book toUpdate = bookRepository.findById(book.getId()).orElse(null);
+            if(toUpdate != null) {
+                toUpdate.getAuthors().remove(toDelete);
+            }
+            toUpdate = null;
+        }
+
+        toDelete.getBooks().clear();
+        authorRepository.delete(toDelete);
     }
 }

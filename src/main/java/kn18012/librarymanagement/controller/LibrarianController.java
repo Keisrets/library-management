@@ -2,6 +2,7 @@ package kn18012.librarymanagement.controller;
 
 import kn18012.librarymanagement.domain.Author;
 import kn18012.librarymanagement.domain.Book;
+import kn18012.librarymanagement.service.AuthorService;
 import kn18012.librarymanagement.service.BookService;
 import kn18012.librarymanagement.service.LibrarianService;
 import org.springframework.stereotype.Controller;
@@ -14,16 +15,18 @@ public class LibrarianController {
 
     private LibrarianService librarianService;
     private BookService bookService;
+    private AuthorService authorService;
 
-    public LibrarianController(LibrarianService librarianService, BookService bookService) {
+    public LibrarianController(LibrarianService librarianService, BookService bookService, AuthorService authorService) {
         this.librarianService = librarianService;
         this.bookService = bookService;
+        this.authorService = authorService;
     }
 
     @GetMapping
     public String home(Model model) {
         model.addAttribute("books", bookService.findAll());
-        model.addAttribute("authors", bookService.findAllAuthors());
+        model.addAttribute("authors", authorService.findAllAuthors());
         return "lib/index";
     }
 
@@ -35,11 +38,10 @@ public class LibrarianController {
     @GetMapping("/new-book")
     public String addBookView(Model model) {
         model.addAttribute("book", new Book());
-        model.addAttribute("allAuthors", bookService.findAllAuthors());
+        model.addAttribute("allAuthors", authorService.findAllAuthors());
         return "lib/new-book";
     }
 
-    // post book add form
     @PostMapping("/create-book")
     public String create(@ModelAttribute Book book) {
         librarianService.save(book);
@@ -49,7 +51,7 @@ public class LibrarianController {
     @GetMapping("/edit-book/{bookId}")
     public String editBookView(@PathVariable("bookId") Long bookId, Model model) {
         model.addAttribute("book", bookService.findById(bookId));
-        model.addAttribute("allAuthors", bookService.findAllAuthors());
+        model.addAttribute("allAuthors", authorService.findAllAuthors());
         return "lib/edit-book";
     }
 
@@ -78,9 +80,16 @@ public class LibrarianController {
         return "redirect:/lib";
     }
 
-    @GetMapping("/update-author/{authorId}")
-    public String editAuthorView() {
-        return "";
+    @GetMapping("/edit-author/{authorId}")
+    public String editAuthorView(@PathVariable("authorId") Long authorId, Model model) {
+        model.addAttribute("author", authorService.findAuthorById(authorId));
+        return "lib/edit-author";
+    }
+
+    @PostMapping("/update-author/{authorId}")
+    public String editAuthorView(@PathVariable("authorId") Long authorId, @ModelAttribute Author author) {
+        librarianService.update(authorId, author);
+        return "redirect:/lib";
     }
 
     @DeleteMapping
