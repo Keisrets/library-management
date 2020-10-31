@@ -12,11 +12,7 @@ public interface LibrarianService {
 
     Book update(Long id, Book book);
 
-    Author update(Author author);
-
-    void delete(Book book);
-
-    void delete(Author author);
+    Author update(Long id, Author author);
 
     void deleteBookById(Long id);
 

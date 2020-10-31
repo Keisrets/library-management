@@ -54,14 +54,6 @@ public class LibrarianServiceImpl implements LibrarianService {
     }
 
     @Override
-    public void delete(Book book) {
-        bookRepository.delete(book);
-    }
-
-    @Override
-    public void delete(Author author) {}
-
-    @Override
     public void deleteBookById(Long id) {
         bookRepository.deleteById(id);
     }
