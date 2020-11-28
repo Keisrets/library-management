@@ -11,4 +11,5 @@ public interface LibrarianService {
 
     void deleteLoan(Long id);
 
+    Loan updateLoan(Long id);
 }

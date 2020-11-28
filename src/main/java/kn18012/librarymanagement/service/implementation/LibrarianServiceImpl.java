@@ -1,5 +1,6 @@
 package kn18012.librarymanagement.service.implementation;
 
+import kn18012.librarymanagement.domain.Book;
 import kn18012.librarymanagement.domain.Loan;
 import kn18012.librarymanagement.repository.LoanRepository;
 import kn18012.librarymanagement.service.LibrarianService;
@@ -36,5 +37,16 @@ public class LibrarianServiceImpl implements LibrarianService {
     @Override
     public void deleteLoan(Long id) {
         loanRepository.deleteById(id);
+    }
+
+    @Override
+    public Loan updateLoan(Long id) {
+        Loan updatedLoan = loanRepository.findById(id).orElse(null);
+        LocalDate date = updatedLoan.getEnd_date();
+
+        LocalDate newEndDate = date.plusMonths(1);
+        updatedLoan.setEnd_date(newEndDate);
+
+        return loanRepository.save(updatedLoan);
     }
 }
