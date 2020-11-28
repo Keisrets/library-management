@@ -15,5 +15,10 @@
         <h1>Authors</h1>
         <h5 th:each="author : ${authors}"><a th:href="@{/lib-dashboard/delete-author/{authorId}(authorId=${author.id})}" th:text="${author.firstName + ' ' + author.lastName}"></a></h5>
     </div>
+    </hr>
+    <div class="container">
+        <h1>Authors</h1>
+        <h5 th:each="loan : ${loans}"><a th:href="@{/lib-dashboard/delete-author/{loanId}(loanId=${loan.id})}" th:text="${loan.id}"></a></h5>
+    </div>
 </body>
 </html>

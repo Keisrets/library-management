@@ -25,6 +25,7 @@ public class LibrarianController {
     public String home(Model model) {
         model.addAttribute("books", bookService.findAll());
         model.addAttribute("authors", authorService.findAllAuthors());
+        model.addAttribute("loans", librarianService.findAllLoans());
         return "lib/index";
     }
 

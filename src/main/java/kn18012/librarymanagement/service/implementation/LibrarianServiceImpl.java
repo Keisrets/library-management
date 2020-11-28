@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class LibrarianServiceImpl implements LibrarianService {
@@ -25,5 +26,10 @@ public class LibrarianServiceImpl implements LibrarianService {
 
         loan.setStart_date(LocalDate.now());
         return loanRepository.save(loan);
+    }
+
+    @Override
+    public List<Loan> findAllLoans() {
+        return loanRepository.findAll();
     }
 }
