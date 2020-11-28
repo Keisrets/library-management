@@ -1,7 +1,5 @@
 package kn18012.librarymanagement.controller;
 
-import kn18012.librarymanagement.domain.Author;
-import kn18012.librarymanagement.domain.Book;
 import kn18012.librarymanagement.service.AuthorService;
 import kn18012.librarymanagement.service.BookService;
 import kn18012.librarymanagement.service.LibrarianService;
@@ -34,7 +32,5 @@ public class LibrarianController {
     public String viewProfile() {
         return "";
     }
-
-
 
 }
