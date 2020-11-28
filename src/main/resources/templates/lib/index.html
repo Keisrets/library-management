@@ -17,8 +17,8 @@
     </div>
     </hr>
     <div class="container">
-        <h1>Authors</h1>
-        <h5 th:each="loan : ${loans}"><a th:href="@{/lib-dashboard/delete-author/{loanId}(loanId=${loan.id})}" th:text="${loan.id}"></a></h5>
+        <h1>Loans</h1>
+        <h5 th:each="loan : ${loans}"><a th:href="@{/lib-dashboard/delete-loan/{loanId}(loanId=${loan.id})}" th:text="${loan.id}"></a></h5>
     </div>
 </body>
 </html>

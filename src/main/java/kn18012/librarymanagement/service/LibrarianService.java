@@ -9,4 +9,6 @@ public interface LibrarianService {
 
     List<Loan> findAllLoans();
 
+    void deleteLoan(Long id);
+
 }

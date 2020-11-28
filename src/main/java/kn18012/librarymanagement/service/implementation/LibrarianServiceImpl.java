@@ -32,4 +32,9 @@ public class LibrarianServiceImpl implements LibrarianService {
     public List<Loan> findAllLoans() {
         return loanRepository.findAll();
     }
+
+    @Override
+    public void deleteLoan(Long id) {
+        loanRepository.deleteById(id);
+    }
 }
