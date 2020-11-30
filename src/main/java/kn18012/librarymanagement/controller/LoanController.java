@@ -41,9 +41,14 @@ public class LoanController {
 
     @DeleteMapping
     @RequestMapping("/delete-loan/{loanId}")
-    public String update(@PathVariable("loanId") Long id) {
+    public String delete(@PathVariable("loanId") Long id) {
         librarianService.deleteLoan(id);
         return "redirect:/lib-dashboard";
     }
 
+    @RequestMapping("/update-loan/{loanId}")
+    public String update(@PathVariable("loanId") Long id) {
+        librarianService.updateLoan(id);
+        return "redirect:/lib-dashboard";
+    }
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Loan</title>
+    <div th:replace="fragments/includes"></div>
+</head>
+<body>
+<div th:replace="fragments/navbar"></div>
+<div class="container" style="width: 50%; margin-top: 50px; padding: 20px; border-radius: 10px; background: #ededed;">
+    <h3 style="text-align: center; margin-bottom: 20px;">Create New Loan</h3>
+    <form th:action="@{/lib-dashboard/create-loan}" method="post" th:object="${loan}">
+        <div class="form-group">
+            <p>User</p>
+            <select class="selectpicker" data-live-search="true" th:field="*{user}">
+                <option disabled selected value="">Select user...</option>
+                <option name="userId" th:each="usr : ${allUsers}" th:value="${usr.id}"
+                        th:text="${usr.firstName + ' ' + usr.lastName}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <p>Book</p>
+            <select name="bookId" th:field="*{book}" class="selectpicker" multiple data-live-search="true">
+                <option th:each="bk : ${allBooks}" th:value="${bk.id}" th:text="${bk.title}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="date" name="date" value="">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">Add book</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -3,22 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <div th:replace="fragments/includes"></div>
 </head>
 <body>
-    <div class="container">
-        <h1>Books</h1>
-        <h5 th:each="book : ${books}"><a th:href="@{/lib-dashboard/del/{bookId}(bookId=${book.id})}" th:text="${book.title}"></a></h5>
-    </div>
-    </hr>
-    <div class="container">
-        <h1>Authors</h1>
-        <h5 th:each="author : ${authors}"><a th:href="@{/lib-dashboard/delete-author/{authorId}(authorId=${author.id})}" th:text="${author.firstName + ' ' + author.lastName}"></a></h5>
-    </div>
-    </hr>
-    <div class="container">
-        <h1>Loans</h1>
-        <h5 th:each="loan : ${loans}"><a th:href="@{/lib-dashboard/delete-loan/{loanId}(loanId=${loan.id})}" th:text="${loan.id}"></a> <a th:href="@{/lib-dashboard/update-loan/{loanId}(loanId=${loan.id})}">Postpone</a></h5>
-    </div>
+<div th:replace="fragments/navbar"></div>
+<div class="container" style="margin-top: 50px; margin-bottom: 100px;">
+    <h1 style="text-align: center;">Loans</h1>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Loan ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Book</th>
+                <th scope="col">Start date</th>
+                <th scope="col">End date</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr scope="row" th:each="loan : ${loans}">
+                <td th:text="${loan.id}"></td>
+                <td th:text="${loan.user.firstName + ' ' + loan.user.lastName}"></td>
+                <td th:text="${loan.book.title}"></td>
+                <td th:text="${loan.start_date}"></td>
+                <td th:text="${loan.end_date}"></td>
+                <td><a style="float:left;" th:href="@{/lib-dashboard/delete-loan/{loanId}(loanId=${loan.id})}" th:text="Delete"></a><a style="float: right;" th:href="@{/lib-dashboard/update-loan/{loanId}(loanId=${loan.id})}" th:text="Postpone"></a></td>
+            </tr>
+        </tbody>
+    </table>
+<!--    <h5 th:each="loan : ${loans}"><a th:href="@{/lib-dashboard/delete-loan/{loanId}(loanId=${loan.id})}"-->
+<!-- -                                     th:text="${loan.id}"></a> <a th:href="@{/lib-dashboard/update-loan/{loanId}(loanId=${loan.id})}">Postpone</a></h5>-->
+</div>
 </body>
 </html>

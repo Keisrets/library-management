@@ -16,6 +16,12 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
+    @GetMapping("/authors-list")
+    public String allAuthorsView(Model model) {
+        model.addAttribute("authors", authorService.findAllAuthors());
+        return "lib/author-list";
+    }
+
     @GetMapping("/new-author")
     public String addAuthorView(Model model) {
         model.addAttribute("author", new Author());

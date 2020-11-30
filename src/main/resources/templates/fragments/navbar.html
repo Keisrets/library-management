@@ -1,0 +1,27 @@
+<nav class="navbar bg-light navbar-light navbar-expand-md navigation-clean-button">
+    <div class="container"><a class="navbar-brand">Library</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/lib-dashboard/">Dashboard</a></li>
+                <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">View</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/lib-dashboard/authors-list">Authors</a>
+                        <a class="dropdown-item" href="/lib-dashboard/books-list">Books</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">Create</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/lib-dashboard/new-author">Author</a>
+                        <a class="dropdown-item" href="/lib-dashboard/new-book">Book</a>
+                        <a class="dropdown-item" href="/lib-dashboard/new-loan">Loan</a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav ml auto">
+                <li><a class="btn btn-light action-button" href="#">Log In</a></li>
+                <li><a class="btn btn-light action-button" href="#">Sign Up</a></li>
+                <li><div sec:authorize="isAuthenticated()"><a th:href="@{/logout}">logout</a></div></li>
+            </ul>
+    </div>
+</nav>
