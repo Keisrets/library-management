@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/lib-admin")
 public class AdminController {
 
-    UserService userService;
+    private UserService userService;
 
     public AdminController(UserService userService) {
         this.userService = userService;
@@ -36,14 +36,14 @@ public class AdminController {
     }
 
     @GetMapping("/edit-user/{userId}")
-    public String librarianEditView(@PathVariable("userId") Long id, Model model) {
+    public String editLibrarianView(@PathVariable("userId") Long id, Model model) {
         model.addAttribute("roles", userService.findAllRoles());
         model.addAttribute("user", userService.findById(id));
         return "adm/edit-user";
     }
 
     @PostMapping("/update-user/{userId}")
-    public String update(@PathVariable("userId") Long id, @ModelAttribute User user) {
+    public String update(@PathVariable("userId") Long id, @ModelAttribute User user, @ModelAttribute String pw) {
         userService.updateUser(id, user);
         return "redirect:/lib-admin";
     }
@@ -51,6 +51,7 @@ public class AdminController {
     @DeleteMapping
     @RequestMapping("/delete-user/{userId}")
     public String delete(@PathVariable("userId") Long id) {
+
         userService.deleteById(id);
         return "redirect:/lib-admin";
     }

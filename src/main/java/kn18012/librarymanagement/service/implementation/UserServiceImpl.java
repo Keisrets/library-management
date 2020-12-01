@@ -5,9 +5,7 @@ import kn18012.librarymanagement.domain.User;
 import kn18012.librarymanagement.repository.RoleRepository;
 import kn18012.librarymanagement.repository.UserRepository;
 import kn18012.librarymanagement.service.UserService;
-
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,8 +29,8 @@ public class UserServiceImpl implements UserService {
         final String encryptedPassword = passwordEncoder.encode(user.getPassword());
 
         user.setPassword(encryptedPassword);
-        Role role = roleRepository.findByRole("user");
-        
+        Role role = roleRepository.findByRole("admin");
+
         user.setRole(role);
         return userRepository.save(user);
     }
@@ -50,8 +48,16 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
+
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public List<User> findAllByRole(String role) {
+        Role userRole = roleRepository.findByRole(role);
+        return userRepository.findByRole(userRole);
     }
 
     public List<Role> findAllRoles() {
@@ -64,6 +70,10 @@ public class UserServiceImpl implements UserService {
 
     public User saveUser(User user, String role) {
         user.setRole(roleRepository.findByRole(role));
+
+        final String encryptedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encryptedPassword);
+
         return userRepository.save(user);
     }
 

@@ -2,42 +2,40 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>User Modification</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>User Update</title>
+    <div th:replace="fragments/includes"></div>
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <form th:action="@{/lib-admin/update-user/{userId}(userId = ${user.id})}" method="post" th:object="${user}">
-                <div class="form-group">
-                    <label class="control-label" for="firstName">First Name</label>
-                    <input id="firstName" class="form-control" th:field="*{firstName}" >
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="lastName">Last Name</label>
-                    <input id="lastName" class="form-control" th:field="*{lastName}" >
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="email">E-mail</label>
-                    <input id="email" class="form-control" th:field="*{email}" type="email">
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="password">Password</label>
-                    <input id="password" class="form-control" th:field="*{password}" type="password">
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Role</label>
-                    <select th:field="*{role.role}">
-                        <option th:each="role : ${roles}" th:value="${role.role}" th:text="${role.role}"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success">Save</button>
-                </div>
-            </form>
-        </div>
+<div th:replace="fragments/navbar"></div>
+    <div class="container" style="width: 50%; margin-top: 50px; padding: 20px; border-radius: 10px; background: #ededed;">
+        <h3 style="text-align: center; margin-bottom: 20px;">Edit User</h3>
+        <form th:action="@{/lib-admin/update-user/{userId}(userId = ${user.id})}" method="post" th:object="${user}">
+            <div class="form-group">
+                <label class="control-label" for="firstName">First Name</label>
+                <input id="firstName" class="form-control" th:field="*{firstName}">
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="lastName">Last Name</label>
+                <input id="lastName" class="form-control" th:field="*{lastName}">
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="email">E-mail</label>
+                <input id="email" class="form-control" th:field="*{email}" type="email">
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="password">New Password</label>
+                <input required id="password" class="form-control" th:field="*{password}" type="password">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Role</label>
+                <select th:field="*{role.role}">
+                    <option th:each="role : ${roles}" th:value="${role.role}" th:text="${role.role}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Save</button>
+            </div>
+        </form>
     </div>
-</div>
 </body>
 </html>
