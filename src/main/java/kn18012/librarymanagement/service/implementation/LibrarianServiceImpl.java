@@ -46,6 +46,9 @@ public class LibrarianServiceImpl implements LibrarianService {
 
     @Override
     public void deleteLoan(Long id) {
+        Book loanedBook = loanRepository.findById(id).get().getBook();
+        loanedBook.setQuantity(loanedBook.getQuantity() + 1);
+        bookService.update(loanedBook.getId(), loanedBook);
         loanRepository.deleteById(id);
     }
 
