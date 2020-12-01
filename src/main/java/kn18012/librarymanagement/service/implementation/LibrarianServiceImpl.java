@@ -2,31 +2,41 @@ package kn18012.librarymanagement.service.implementation;
 
 import kn18012.librarymanagement.domain.Book;
 import kn18012.librarymanagement.domain.Loan;
+import kn18012.librarymanagement.repository.BookRepository;
 import kn18012.librarymanagement.repository.LoanRepository;
+import kn18012.librarymanagement.service.BookService;
 import kn18012.librarymanagement.service.LibrarianService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
 public class LibrarianServiceImpl implements LibrarianService {
 
     private LoanRepository loanRepository;
+    private BookRepository bookRepository;
+    private BookService bookService;
 
-    public LibrarianServiceImpl(LoanRepository loanRepository) {
+    public LibrarianServiceImpl(LoanRepository loanRepository, BookRepository bookRepository, BookService bookService) {
         this.loanRepository = loanRepository;
+        this.bookRepository = bookRepository;
+        this.bookService = bookService;
     }
 
     @Override
     public Loan saveLoan(Loan loan) {
-        // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        // LocalDate startDate = LocalDate.now();
-        // String start_date = LocalDate.now().toString();
+        Book updatedBook = bookRepository.findById(loan.getBook().getId()).orElse(null);
+        if(updatedBook != null) {
+            if(updatedBook.getQuantity() > 0) {
+                updatedBook.setQuantity(updatedBook.getQuantity() - 1);
+                bookService.update(loan.getBook().getId(), updatedBook);
+                loan.setStart_date(LocalDate.now());
+                return loanRepository.save(loan);
+            }
+        }
 
-        loan.setStart_date(LocalDate.now());
-        return loanRepository.save(loan);
+        return null;
     }
 
     @Override
