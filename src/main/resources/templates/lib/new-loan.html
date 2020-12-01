@@ -20,8 +20,8 @@
         </div>
         <div class="form-group">
             <p>Book</p>
-            <select name="bookId" th:field="*{book}" class="selectpicker" multiple data-live-search="true">
-                <option th:each="bk : ${allBooks}" th:value="${bk.id}" th:text="${bk.title}"></option>
+            <select name="bookId" th:field="*{book}" class="selectpicker" data-live-search="true">
+                <option th:each="bk : ${allBooks}" th:if="${bk.quantity > 0}" th:value="${bk.id}" th:text="${bk.title}"></option>
             </select>
         </div>
         <div class="form-group">
