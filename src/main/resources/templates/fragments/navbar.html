@@ -19,9 +19,9 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav ml auto">
-                <li><a class="btn btn-light action-button" href="#">Log In</a></li>
-                <li><a class="btn btn-light action-button" href="#">Sign Up</a></li>
-                <li><div sec:authorize="isAuthenticated()"><a th:href="@{/logout}">logout</a></div></li>
+                <li sec:authorize="isAnonymous()"><a class="btn btn-light action-button" th:href="@{/login}">Log In</a></li>
+                <li sec:authorize="isAnonymous()"><a class="btn btn-light action-button" th:href="@{/register}">Sign Up</a></li>
+                <div sec:authorize="isAuthenticated()"><li><a class="btn btn-light action-button" th:href="@{/logout}">Log out</a></li></div>
             </ul>
     </div>
 </nav>
