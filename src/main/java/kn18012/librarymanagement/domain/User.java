@@ -2,8 +2,11 @@ package kn18012.librarymanagement.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 @Entity
@@ -14,16 +17,20 @@ public class User implements UserDetails {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @NotBlank(message = "Error: First name can't be empty!")
     @Column(name = "first_name", length = 30)
     private String firstName;
 
+    @NotBlank(message = "Error: Last name can't be empty!")
     @Column(name = "last_name", length = 30)
     private String lastName;
 
     @Column(name = "email", length = 80)
+    @Size(min = 5, max = 80, message = "Error: Invalid e-mail!")
     private String email;
 
     @Column(name = "password", length = 60)
+    @Size(min = 6, max = 60, message = "Error: Minimal password length is 6 characters!")
     private String password;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)

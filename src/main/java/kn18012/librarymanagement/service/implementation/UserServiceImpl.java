@@ -2,13 +2,14 @@ package kn18012.librarymanagement.service.implementation;
 
 import kn18012.librarymanagement.domain.Role;
 import kn18012.librarymanagement.domain.User;
-import kn18012.librarymanagement.repository.RoleRepository;
 import kn18012.librarymanagement.repository.UserRepository;
 import kn18012.librarymanagement.service.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,30 +17,26 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
-    private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User registerUser(User user){
+    public User registerUser(User user) {
         final String encryptedPassword = passwordEncoder.encode(user.getPassword());
-
         user.setPassword(encryptedPassword);
-        Role role = roleRepository.findByRole("admin");
+        ArrayList<Role> roles = new ArrayList<>();
+        roles.add(Role.user);
+        user.setRoles(roles);
 
-        user.setRole(role);
         return userRepository.save(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
         final Optional<User> user = userRepository.findByEmail(email);
-
         if (user.isPresent()) {
             return (UserDetails) user.get();
         }
@@ -48,31 +45,35 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public boolean userExists(String email) {
+        Optional<User> existingUser = userRepository.findByEmail(email);
 
+        if(existingUser != null) return true;
+        return false;
+    }
 
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    @Override
-    public List<User> findAllByRole(String role) {
-        Role userRole = roleRepository.findByRole(role);
-        return userRepository.findByRole(userRole);
+    public List<User> findAllByRole(Role role) {
+        return userRepository.findUserByRolesContaining(role);
     }
 
     public List<Role> findAllRoles() {
-        return roleRepository.findAll();
+        List<Role> allRoles = Arrays.asList(Role.values());
+        return allRoles;
     }
 
     public User findById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
-    public User saveUser(User user, String role) {
-        user.setRole(roleRepository.findByRole(role));
-
+    public User saveUser(User user, ArrayList<Role> roles) {
         final String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
+        user.setRoles(roles);
 
         return userRepository.save(user);
     }
@@ -80,13 +81,12 @@ public class UserServiceImpl implements UserService {
     public User updateUser(Long id, User user) {
         // need to handle exception if user not found.
         User update = userRepository.findById(id).orElse(null);
-        Role newRole = roleRepository.findByRole(user.getRole().getRole());
 
         update.setFirstName(user.getFirstName());
         update.setLastName(user.getLastName());
         update.setEmail(user.getEmail());
         update.setPassword(user.getPassword());
-        update.setRole(newRole);
+        update.setRoles(user.getRoles());
         update.setLoans(user.getLoans());
 
         return userRepository.save(update);
