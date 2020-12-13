@@ -1,6 +1,11 @@
 package kn18012.librarymanagement.domain;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,6 +17,7 @@ public class Book {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @NotBlank(message = "Error: Title must not be empty!")
     @Column(name = "title", length = 100)
     private String title;
 
@@ -32,6 +38,7 @@ public class Book {
     @Column(name = "description")
     private String description;
 
+    @Range(min = 1, max = 10000, message = "Error: Quantity  must be larger than 1!")
     @Column(name = "quanitity")
     private int quantity;
 
