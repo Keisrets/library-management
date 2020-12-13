@@ -1,43 +1,40 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/top"></div>
 <head>
-    <meta charset="UTF-8">
-    <title>Edit book</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Edit Book</title>
+    <div th:replace="fragments/includes"></div>
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <form th:action="@{/lib-dashboard/update-book/{bookId}(bookId = ${book.id})}" method="post" th:object="${book}">
-                <div class="form-group">
-                    <label class="control-label" for="title">Title</label>
-                    <input id="title" class="form-control" th:field="*{title}" >
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="genre">Genre</label>
-                    <input id="genre" class="form-control" th:field="*{genre}" >
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Author</label>
-                    <select th:field="*{authors}" multiple>
-                        <option th:each="auth : ${allAuthors}" th:value="${auth.id}" th:text="${auth.firstName + ' ' + auth.lastName}"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="description">Description</label>
-                    <input id="description" class="form-control" th:field="*{description}" >
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="quantity">Quantity</label>
-                    <input id="quantity" class="form-control" th:field="*{quantity}" >
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success">Save book</button>
-                </div>
-            </form>
+<div th:replace="fragments/navbar"></div>
+<div class="container" style="width: 50%; margin-top: 100px; padding: 20px; border-radius: 10px; background: #ededed;">
+    <form th:action="@{/lib-dashboard/update-book/{bookId}(bookId = ${book.id})}" method="post" th:object="${book}">
+        <div class="form-group">
+            <label class="control-label" for="title">Title</label>
+            <input id="title" class="form-control" th:field="*{title}">
         </div>
-    </div>
+        <div class="form-group">
+            <label class="control-label" for="genre">Genre</label>
+            <input id="genre" class="form-control" th:field="*{genre}">
+        </div>
+        <div class="form-group">
+            <label class="control-label">Author</label>
+            <select th:field="*{authors}" multiple>
+                <option th:each="auth : ${allAuthors}" th:value="${auth.id}"
+                        th:text="${auth.firstName + ' ' + auth.lastName}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="description">Description</label>
+            <input id="description" class="form-control" th:field="*{description}">
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="quantity">Quantity</label>
+            <input id="quantity" class="form-control" th:field="*{quantity}">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">Save book</button>
+        </div>
+    </form>
 </div>
+
 </body>
 </html>

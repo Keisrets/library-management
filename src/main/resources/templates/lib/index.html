@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/top"></div>
 <head>
-    <meta charset="UTF-8">
     <title>Dashboard</title>
     <div th:replace="fragments/includes"></div>
 </head>
@@ -31,8 +29,6 @@
             </tr>
         </tbody>
     </table>
-<!--    <h5 th:each="loan : ${loans}"><a th:href="@{/lib-dashboard/delete-loan/{loanId}(loanId=${loan.id})}"-->
-<!-- -                                     th:text="${loan.id}"></a> <a th:href="@{/lib-dashboard/update-loan/{loanId}(loanId=${loan.id})}">Postpone</a></h5>-->
 </div>
 </body>
 </html>
