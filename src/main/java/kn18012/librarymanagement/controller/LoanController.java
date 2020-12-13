@@ -1,6 +1,7 @@
 package kn18012.librarymanagement.controller;
 
 import kn18012.librarymanagement.domain.Loan;
+import kn18012.librarymanagement.domain.Role;
 import kn18012.librarymanagement.service.BookService;
 import kn18012.librarymanagement.service.LibrarianService;
 import kn18012.librarymanagement.service.UserService;
@@ -25,9 +26,10 @@ public class LoanController {
 
     @GetMapping("/new-loan")
     public String addBookView(Model model) {
+        Role userRole = Role.user;
         model.addAttribute("loan", new Loan());
         model.addAttribute("allBooks", bookService.findAll());
-        model.addAttribute("allUsers", userService.findAllByRole("user"));
+        model.addAttribute("allUsers", userService.findAllByRole(userRole));
         return "lib/new-loan";
     }
 
