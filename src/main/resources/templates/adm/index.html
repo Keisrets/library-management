@@ -25,8 +25,7 @@
                     <td th:text="${user.firstName}"></td>
                     <td th:text="${user.lastName}"></td>
                     <td th:text="${user.email}"></td>
-                    <td th:text="${user.role.role}"></td>
-<!--                    <td th:text="${loan.end_date}"></td>-->
+                    <td th:text="${user.roles}"></td>
                     <td><a style="float:left;" th:href="@{/lib-admin/delete-user/{userId}(userId=${user.id})}" th:text="Delete"></a><a style="float: right;" th:href="@{/lib-admin/edit-user/{userId}(userId=${user.id})}" th:text="Edit"></a></td>
                 </tr>
                 </tbody>

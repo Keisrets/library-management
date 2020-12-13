@@ -47,10 +47,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean userExists(String email) {
-        Optional<User> existingUser = userRepository.findByEmail(email);
+        User existingUser = userRepository.findByEmail(email).orElse(null);
 
-        if(existingUser != null) return true;
-        return false;
+        if(existingUser != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public List<User> findAll() {
@@ -82,10 +85,11 @@ public class UserServiceImpl implements UserService {
         // need to handle exception if user not found.
         User update = userRepository.findById(id).orElse(null);
 
+        final String newEncryptedPassword = passwordEncoder.encode(user.getPassword());
         update.setFirstName(user.getFirstName());
         update.setLastName(user.getLastName());
         update.setEmail(user.getEmail());
-        update.setPassword(user.getPassword());
+        update.setPassword(newEncryptedPassword);
         update.setRoles(user.getRoles());
         update.setLoans(user.getLoans());
 

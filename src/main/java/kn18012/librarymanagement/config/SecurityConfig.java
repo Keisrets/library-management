@@ -7,18 +7,26 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
+
+    public SecurityConfig(AuthenticationSuccessHandler authenticationSuccessHandler) {
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/").permitAll()
-                .antMatchers("/login", "/register").permitAll()
-                .antMatchers("/lib-admin/**").access("hasAuthority('admin')").anyRequest().authenticated()
-                .antMatchers("/lib-dashboard/**").access("hasAuthority('librarian')").anyRequest().authenticated()
-                .and().formLogin().loginPage("/login").defaultSuccessUrl("/", true).failureUrl("/login-failed").permitAll()
+        http.authorizeRequests()
+                .antMatchers("/").permitAll()
+                .and().authorizeRequests().antMatchers("/login", "/register").permitAll()
+                .and().authorizeRequests().antMatchers("/lib-admin/**").access("hasAuthority('admin')")
+                .and().authorizeRequests().antMatchers("/lib-dashboard/**").access("hasAnyAuthority('librarian', 'admin')").anyRequest().authenticated()
+                .and().formLogin().loginPage("/login").defaultSuccessUrl("/", true).failureUrl("/login-failed").successHandler(authenticationSuccessHandler).permitAll()
                 .and().logout().logoutSuccessUrl("/").permitAll().logoutUrl("/logout").invalidateHttpSession(true)
                 .and().headers().frameOptions().disable()
                 .and().csrf().disable();
