@@ -3,7 +3,7 @@ package kn18012.librarymanagement.service;
 import kn18012.librarymanagement.domain.Loan;
 import java.util.List;
 
-public interface LibrarianService {
+public interface LoanService {
 
     Loan saveLoan(Loan loan);
 

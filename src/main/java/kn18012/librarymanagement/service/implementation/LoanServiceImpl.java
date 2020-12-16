@@ -5,20 +5,20 @@ import kn18012.librarymanagement.domain.Loan;
 import kn18012.librarymanagement.repository.BookRepository;
 import kn18012.librarymanagement.repository.LoanRepository;
 import kn18012.librarymanagement.service.BookService;
-import kn18012.librarymanagement.service.LibrarianService;
+import kn18012.librarymanagement.service.LoanService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Service
-public class LibrarianServiceImpl implements LibrarianService {
+public class LoanServiceImpl implements LoanService {
 
     private LoanRepository loanRepository;
     private BookRepository bookRepository;
     private BookService bookService;
 
-    public LibrarianServiceImpl(LoanRepository loanRepository, BookRepository bookRepository, BookService bookService) {
+    public LoanServiceImpl(LoanRepository loanRepository, BookRepository bookRepository, BookService bookService) {
         this.loanRepository = loanRepository;
         this.bookRepository = bookRepository;
         this.bookService = bookService;
