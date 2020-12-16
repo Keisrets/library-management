@@ -16,6 +16,7 @@
             <th scope="col">Title</th>
             <th scope="col">Genre</th>
             <th scope="col">Description</th>
+            <th scope="col">Quantity</th>
             <th scope="col">Authors</th>
             <th scope="col">Actions</th>
         </tr>
@@ -26,13 +27,14 @@
             <td th:text="${book.title}"></td>
             <td th:text="${book.genre}"></td>
             <td th:text="${book.description}"></td>
+            <td th:text="${book.quantity}"></td>
 <!--            <td th:text="${book.}"></td>-->
             <!--            <td th:each="author : ${book.authors}">-->
             <!--                <td th:text="${author.id}"></td>-->
             </td>
             <td><a style="margin-right: 10px;" class="btn btn-danger"
                    th:href="@{/lib-dashboard/delete-book/{bookId}(authorId=${book.id})}" th:text="Delete"></a><a
-                    class="btn btn-primary" th:href="@{/lib-dashboard/edit-author/{bookId}(bookId=${book.id})}"
+                    class="btn btn-primary" th:href="@{/lib-dashboard/edit-book/{bookId}(bookId=${book.id})}"
                     th:text="Update"></a></td>
         </tr>
         </tbody>
