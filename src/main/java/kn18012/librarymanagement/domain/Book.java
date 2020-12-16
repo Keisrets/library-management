@@ -38,7 +38,7 @@ public class Book {
     @Column(name = "description")
     private String description;
 
-    @Range(min = 1, max = 10000, message = "Error: Quantity  must be larger than 1!")
+    @Range(min = 0, max = 10000, message = "Error: Quantity  must be larger than 1!")
     @Column(name = "quanitity")
     private int quantity;
 
