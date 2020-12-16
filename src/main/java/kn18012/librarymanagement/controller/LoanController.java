@@ -3,7 +3,7 @@ package kn18012.librarymanagement.controller;
 import kn18012.librarymanagement.domain.Loan;
 import kn18012.librarymanagement.domain.Role;
 import kn18012.librarymanagement.service.BookService;
-import kn18012.librarymanagement.service.LibrarianService;
+import kn18012.librarymanagement.service.LoanService;
 import kn18012.librarymanagement.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +16,9 @@ public class LoanController {
 
     private BookService bookService;
     private UserService userService;
-    private LibrarianService librarianService;
+    private LoanService librarianService;
 
-    public LoanController(BookService bookService, UserService userService, LibrarianService librarianService) {
+    public LoanController(BookService bookService, UserService userService, LoanService librarianService) {
         this.bookService = bookService;
         this.userService = userService;
         this.librarianService = librarianService;
