@@ -31,8 +31,9 @@ public class Book {
     @OneToMany(targetEntity = Loan.class, cascade = CascadeType.ALL, mappedBy = "book")
     private Set<Loan> loans = new HashSet<>();
 
-    @Column(name = "genre", length = 30)
-    private String genre;
+    @ManyToOne
+    @JoinColumn(name = "genre_id")
+    private Genre genre;
 
     @Lob
     @Column(name = "description")
@@ -66,11 +67,11 @@ public class Book {
         this.authors = authors;
     }
 
-    public String getGenre() {
+    public Genre getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(Genre genre) {
         this.genre = genre;
     }
 
