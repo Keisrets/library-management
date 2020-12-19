@@ -32,6 +32,7 @@ public class BookController {
     public String addBookView(Model model) {
         model.addAttribute("book", new Book());
         model.addAttribute("allAuthors", authorService.findAllAuthors());
+        model.addAttribute("genres", bookService.findAllGenres());
         return "lib/new-book";
     }
 
@@ -49,6 +50,7 @@ public class BookController {
     public String editBookView(@PathVariable("bookId") Long id, Model model) {
         model.addAttribute("book", bookService.findById(id));
         model.addAttribute("allAuthors", authorService.findAllAuthors());
+        model.addAttribute("genres", bookService.findAllGenres());
         return "lib/edit-book";
     }
 

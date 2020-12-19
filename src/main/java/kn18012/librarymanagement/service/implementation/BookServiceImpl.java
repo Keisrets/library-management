@@ -1,7 +1,10 @@
 package kn18012.librarymanagement.service.implementation;
 
 import kn18012.librarymanagement.domain.Book;
+import kn18012.librarymanagement.domain.Genre;
 import kn18012.librarymanagement.repository.BookRepository;
+import kn18012.librarymanagement.repository.GenreRepository;
+import kn18012.librarymanagement.repository.LoanRepository;
 import kn18012.librarymanagement.service.BookService;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +14,23 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
 
     BookRepository bookRepository;
+    GenreRepository genreRepository;
+    LoanRepository loanRepository;
 
-    public BookServiceImpl(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository, GenreRepository genreRepository, LoanRepository loanRepository) {
         this.bookRepository = bookRepository;
+        this.genreRepository = genreRepository;
+        this.loanRepository = loanRepository;
     }
 
     @Override
     public List<Book> findAll() {
         return bookRepository.findAll();
+    }
+
+    @Override
+    public List<Genre> findAllGenres() {
+        return genreRepository.findAll();
     }
 
     @Override

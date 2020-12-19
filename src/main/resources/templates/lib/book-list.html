@@ -25,7 +25,7 @@
         <tr scope="row" th:each="book : ${books}">
             <td th:text="${book.id}"></td>
             <td th:text="${book.title}"></td>
-            <td th:text="${book.genre}"></td>
+            <td th:text="${book.genre?.genre}"></td>
             <td th:text="${book.description}"></td>
             <td th:text="${book.quantity}"></td>
 <!--            <td th:text="${book.}"></td>-->

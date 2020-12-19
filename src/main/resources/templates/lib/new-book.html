@@ -15,7 +15,10 @@
         </div>
         <div class="form-group">
             <label class="control-label" for="genre">Genre</label>
-            <input required id="genre" class="form-control" th:field="*{genre}">
+            <select required th:field="*{genre}" class="selectpicker" data-live-search="true">
+                <option th:each="genre : ${genres}" th:value="${genre.id}"
+                        th:text="${genre.genre}"></option>
+            </select>
         </div>
         <div class="form-group">
             <label class="control-label">Author/s</label>
