@@ -2,12 +2,12 @@ package kn18012.librarymanagement.service.implementation;
 
 import kn18012.librarymanagement.domain.Book;
 import kn18012.librarymanagement.domain.Loan;
+import kn18012.librarymanagement.domain.User;
 import kn18012.librarymanagement.repository.BookRepository;
 import kn18012.librarymanagement.repository.LoanRepository;
 import kn18012.librarymanagement.service.BookService;
 import kn18012.librarymanagement.service.LoanService;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,6 +22,16 @@ public class LoanServiceImpl implements LoanService {
         this.loanRepository = loanRepository;
         this.bookRepository = bookRepository;
         this.bookService = bookService;
+    }
+
+    @Override
+    public List<Loan> findAllLoans() {
+        return loanRepository.findAll();
+    }
+
+    @Override
+    public List<Loan> findLoansByUser(User user) {
+        return loanRepository.findLoansByUser(user);
     }
 
     @Override
@@ -40,19 +50,6 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public List<Loan> findAllLoans() {
-        return loanRepository.findAll();
-    }
-
-    @Override
-    public void deleteLoan(Long id) {
-        Book loanedBook = loanRepository.findById(id).get().getBook();
-        loanedBook.setQuantity(loanedBook.getQuantity() + 1);
-        bookService.update(loanedBook.getId(), loanedBook);
-        loanRepository.deleteById(id);
-    }
-
-    @Override
     public Loan updateLoan(Long id) {
         Loan updatedLoan = loanRepository.findById(id).orElse(null);
         LocalDate date = updatedLoan.getEnd_date();
@@ -61,5 +58,13 @@ public class LoanServiceImpl implements LoanService {
         updatedLoan.setEnd_date(newEndDate);
 
         return loanRepository.save(updatedLoan);
+    }
+
+    @Override
+    public void deleteLoan(Long id) {
+        Book loanedBook = loanRepository.findById(id).get().getBook();
+        loanedBook.setQuantity(loanedBook.getQuantity() + 1);
+        bookService.update(loanedBook.getId(), loanedBook);
+        loanRepository.deleteById(id);
     }
 }
