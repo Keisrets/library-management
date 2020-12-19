@@ -2,9 +2,11 @@ package kn18012.librarymanagement.controller;
 
 import kn18012.librarymanagement.domain.Loan;
 import kn18012.librarymanagement.domain.Role;
+import kn18012.librarymanagement.domain.User;
 import kn18012.librarymanagement.service.BookService;
 import kn18012.librarymanagement.service.LoanService;
 import kn18012.librarymanagement.service.UserService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +27,8 @@ public class LoanController {
     }
 
     @GetMapping("/new-loan")
-    public String addBookView(Model model) {
+    public String addBookView(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
         Role userRole = Role.user;
         model.addAttribute("loan", new Loan());
         model.addAttribute("allBooks", bookService.findAll());
@@ -41,16 +44,16 @@ public class LoanController {
         return "redirect:/lib-dashboard";
     }
 
+    @RequestMapping("/update-loan/{loanId}")
+    public String update(@PathVariable("loanId") Long id) {
+        librarianService.updateLoan(id);
+        return "redirect:/lib-dashboard";
+    }
+
     @DeleteMapping
     @RequestMapping("/delete-loan/{loanId}")
     public String delete(@PathVariable("loanId") Long id) {
         librarianService.deleteLoan(id);
-        return "redirect:/lib-dashboard";
-    }
-
-    @RequestMapping("/update-loan/{loanId}")
-    public String update(@PathVariable("loanId") Long id) {
-        librarianService.updateLoan(id);
         return "redirect:/lib-dashboard";
     }
 }

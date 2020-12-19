@@ -7,7 +7,7 @@
 <div th:replace="fragments/navbar"></div>
 <div class="container" style="width: 50%; margin-top: 50px; padding: 20px; border-radius: 10px; background: #ededed;">
     <h3 style="text-align: center; margin-bottom: 20px;">Create New User</h3>
-    <form th:action="@{/lib-admin/create-user}" method="post" th:object="${user}">
+    <form th:action="@{/lib-admin/create-user}" method="post" th:object="${newUser}">
         <div class="form-group">
             <label class="control-label" for="firstName">First Name</label>
             <input id="firstName" class="form-control" th:field="*{firstName}">

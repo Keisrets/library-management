@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.security.Principal;
+
 @Controller
 public class IndexController {
 
@@ -17,12 +19,14 @@ public class IndexController {
     }
 
     @GetMapping("/")
-    public String index() {
+    public String index(Principal principal, @AuthenticationPrincipal User user, Model model) {
+        if(principal != null) model.addAttribute("user", user);
         return "index";
     }
 
     @GetMapping("/my-loans")
-    public String showLoanView(@AuthenticationPrincipal User user, Model model) {
+    public String showLoanView(Principal principal, @AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
         model.addAttribute("loans", loanService.findLoansByUser(user));
         return "usr/loans";
     }

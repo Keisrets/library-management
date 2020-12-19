@@ -1,7 +1,9 @@
 package kn18012.librarymanagement.controller;
 
 import kn18012.librarymanagement.domain.Author;
+import kn18012.librarymanagement.domain.User;
 import kn18012.librarymanagement.service.AuthorService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +19,15 @@ public class AuthorController {
     }
 
     @GetMapping("/authors-list")
-    public String allAuthorsView(Model model) {
+    public String allAuthorsView(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
         model.addAttribute("authors", authorService.findAllAuthors());
         return "lib/author-list";
     }
 
     @GetMapping("/new-author")
-    public String addAuthorView(Model model) {
+    public String addAuthorView(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
         model.addAttribute("author", new Author());
         return "lib/new-author";
     }
@@ -31,11 +35,12 @@ public class AuthorController {
     @PostMapping("/create-author")
     public String createAuthor(@ModelAttribute Author author) {
         authorService.save(author);
-        return "redirect:/lib-dashboard";
+        return "redirect:/lib-dashboard/authors-list";
     }
 
     @GetMapping("/edit-author/{authorId}")
-    public String editAuthorView(@PathVariable("authorId") Long id, Model model) {
+    public String editAuthorView(@AuthenticationPrincipal User user, @PathVariable("authorId") Long id, Model model) {
+        model.addAttribute("user", user);
         model.addAttribute("author", authorService.findAuthorById(id));
         return "lib/edit-author";
     }
@@ -43,7 +48,7 @@ public class AuthorController {
     @PostMapping("/update-author/{authorId}")
     public String editAuthorView(@PathVariable("authorId") Long id, @ModelAttribute Author author) {
         authorService.update(id, author);
-        return "redirect:/lib-dashboard";
+        return "redirect:/lib-dashboard/authors-list";
     }
 
     @DeleteMapping

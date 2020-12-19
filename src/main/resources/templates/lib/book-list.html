@@ -33,7 +33,7 @@
             <!--                <td th:text="${author.id}"></td>-->
             </td>
             <td><a style="margin-right: 10px;" class="btn btn-danger"
-                   th:href="@{/lib-dashboard/delete-book/{bookId}(authorId=${book.id})}" th:text="Delete"></a><a
+                   th:href="@{/lib-dashboard/delete-book/{bookId}(bookId=${book.id})}" th:text="Delete"></a><a
                     class="btn btn-primary" th:href="@{/lib-dashboard/edit-book/{bookId}(bookId=${book.id})}"
                     th:text="Update"></a></td>
         </tr>
