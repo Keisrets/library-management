@@ -31,7 +31,7 @@
                     <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#" th:text="${user?.firstName + ' ' + user?.lastName}"></a>
                         <div class="dropdown-menu">
                             <div sec:authorize="hasAuthority('user')"><a class="dropdown-item" th:href="@{/my-loans}">My Loans</a></div>
-                            <a class="dropdown-item" href="/lib-admin/new-user">Change password</a>
+                            <a class="dropdown-item" href="/change-password">Change password</a>
                             <a class="dropdown-item" th:href="@{/logout}">Log out</a>
                         </div>
                     </li>
