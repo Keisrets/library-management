@@ -1,11 +1,14 @@
 package kn18012.librarymanagement.controller;
 
+import kn18012.librarymanagement.domain.Book;
 import kn18012.librarymanagement.domain.User;
+import kn18012.librarymanagement.service.BookService;
 import kn18012.librarymanagement.service.LoanService;
 import kn18012.librarymanagement.service.UserService;
 import kn18012.librarymanagement.utility.ErrorMessage;
 import kn18012.librarymanagement.utility.PasswordCheck;
 import kn18012.librarymanagement.utility.RedirectUrlBuilder;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,16 +17,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class IndexController {
 
     private LoanService loanService;
     private UserService userService;
+    private BookService bookService;
 
-    public IndexController(LoanService loanService, UserService userService) {
+    public IndexController(LoanService loanService, UserService userService, BookService bookService) {
         this.loanService = loanService;
         this.userService = userService;
+        this.bookService = bookService;
     }
 
     @GetMapping("/")
@@ -61,5 +67,18 @@ public class IndexController {
         // redirect user based on role
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return RedirectUrlBuilder.newRedirectUrl(auth);
+    }
+
+    @GetMapping("/results/page/{pageNumber}")
+    public String showSearchResults(@AuthenticationPrincipal User user, @PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
+        Page<Book> page = bookService.searchForBook(phrase, pageNumber);
+        List<Book> books = page.getContent();
+
+        model.addAttribute("user", user);
+        model.addAttribute("books", books);
+        model.addAttribute("phrase", phrase);
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+        return "search-results";
     }
 }
