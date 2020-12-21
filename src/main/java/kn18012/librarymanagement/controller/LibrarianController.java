@@ -31,10 +31,4 @@ public class LibrarianController {
         model.addAttribute("loans", loanService.findAllLoans());
         return "lib/index";
     }
-
-    @GetMapping("/profile")
-    public String viewProfile() {
-        return "";
-    }
-
 }
