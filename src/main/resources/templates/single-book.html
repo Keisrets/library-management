@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${book.title}"></title>
+    <div th:replace="fragments/includes"></div>
+</head>
+<body>
+<div th:replace="fragments/navbar"></div>
+<div class="jumbotron text-white rounded bg-dark">
+    <h3 th:text="${book.title}"></h3>
+    <span th:each="a, iterStat : ${book.authors}" th:text="${!iterStat.last} ? ${a.firstName + '. ' + a.lastName} + ', ': ${a.firstName + '. ' + a.lastName}"></span>
+    <p th:text="${book.description}"></p>
+</body>
+</html>
+
