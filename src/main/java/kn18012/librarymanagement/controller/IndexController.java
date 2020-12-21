@@ -81,4 +81,11 @@ public class IndexController {
         model.addAttribute("totalPages", page.getTotalPages());
         return "search-results";
     }
+
+    @GetMapping("/book/{bookId}")
+    public String showSingleBookView(@AuthenticationPrincipal User user, @PathVariable("bookId") Long bookId, Model model) {
+        Book theBook = bookService.findById(bookId);
+        model.addAttribute("book", theBook);
+        return "single-book";
+    }
 }
