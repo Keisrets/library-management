@@ -86,6 +86,7 @@ public class IndexController {
     public String showSingleBookView(@AuthenticationPrincipal User user, @PathVariable("bookId") Long bookId, Model model) {
         Book theBook = bookService.findById(bookId);
         model.addAttribute("book", theBook);
+        model.addAttribute("user", user);
         return "single-book";
     }
 }
