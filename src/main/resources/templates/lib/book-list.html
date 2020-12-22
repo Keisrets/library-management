@@ -15,7 +15,6 @@
             <th scope="col">Book ID</th>
             <th scope="col">Title</th>
             <th scope="col">Genre</th>
-            <th scope="col">Description</th>
             <th scope="col">Quantity</th>
             <th scope="col">Authors</th>
             <th scope="col">Actions</th>
@@ -26,16 +25,14 @@
             <td th:text="${book.id}"></td>
             <td th:text="${book.title}"></td>
             <td th:text="${book.genre?.genre}"></td>
-            <td th:text="${book.description}"></td>
             <td th:text="${book.quantity}"></td>
-<!--            <td th:text="${book.}"></td>-->
-            <!--            <td th:each="author : ${book.authors}">-->
-            <!--                <td th:text="${author.id}"></td>-->
+            <td style="max-width:350px;">
+                <span th:each="a, iterStat : ${book.authors}" th:text="${!iterStat.last} ? ${a.firstName + ' ' + a.lastName} + ', ': ${a.firstName + ' ' + a.lastName}"></span>
             </td>
-            <td><a style="margin-right: 10px;" class="btn btn-danger"
-                   th:href="@{/lib-dashboard/delete-book/{bookId}(bookId=${book.id})}" th:text="Delete"></a><a
-                    class="btn btn-primary" th:href="@{/lib-dashboard/edit-book/{bookId}(bookId=${book.id})}"
-                    th:text="Update"></a></td>
+            <td>
+                <a style="margin-right: 10px;" class="btn btn-danger" th:href="@{/lib-dashboard/delete-book/{bookId}(bookId=${book.id})}" th:text="Delete"></a>
+                <a class="btn btn-primary" th:href="@{/lib-dashboard/edit-book/{bookId}(bookId=${book.id})}" th:text="Update"></a>
+            </td>
         </tr>
         </tbody>
     </table>

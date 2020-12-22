@@ -13,9 +13,10 @@
               th:text="${!iterStat.last} ? ${a.firstName + ' ' + a.lastName} + ', ': ${a.firstName + ' ' + a.lastName}"></span>
     </div>
     <div style="background: #80808012;width:100%;min-height:250px;padding:15px">
-        <p th:text="${book.description}"></p>
+        <p style="font-weight:bold;margin-bottom:0">Description: </p>
+        <p style="padding:0px 10px 10px 10px;line-height:22px;" th:text="${book.description}"></p>
         <p class="availability-msg" style="font-weight:bold;color:green;text-align:center;position:absolute;bottom:0;right:20px;" th:text="${book.quantity > 0} ? 'Available'"></p>
-        <p class="availability-msg" style="font-weight:bold;color:red;text-align:center;position:absolute;bottom:0;right:0;" th:text="${book.quantity} == 0 ? 'Out of Stock' "></p>
+        <p class="availability-msg" style="font-weight:bold;color:red;text-align:center;position:absolute;bottom:0;right:20px;" th:text="${book.quantity} == 0 ? 'Out of Stock' "></p>
     </div>
 
 
