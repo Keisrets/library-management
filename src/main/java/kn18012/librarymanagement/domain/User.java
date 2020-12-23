@@ -23,7 +23,7 @@ public class User implements UserDetails {
     @Column(name = "last_name", length = 30)
     private String lastName;
 
-    @Column(name = "email", length = 80)
+    @Column(name = "email", length = 80, unique = true)
     @Size(min = 5, max = 80, message = "Error: Invalid e-mail!")
     private String email;
 
