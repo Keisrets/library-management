@@ -3,13 +3,13 @@
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="nav navbar-nav mr-auto">
                 <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <div sec:authorize="hasAuthority('admin')"><li><a class="btn btn-light action-button" th:href="@{/lib-admin}">Dashboard</a></li></div>
-                <div sec:authorize="hasAuthority('librarian')"><li><a class="btn btn-light action-button" th:href="@{/lib-dashboard}">Dashboard</a></li></div>
+                <div sec:authorize="hasAuthority('admin')"><li><a class="nav-link" th:href="@{/lib-admin}">Dashboard</a></li></div>
+                <div sec:authorize="hasAuthority('librarian')"><li><a class="nav-link" th:href="@{/lib-dashboard}">Dashboard</a></li></div>
                 <div sec:authorize="hasAnyAuthority('admin', 'librarian')">
                 <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">View</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/lib-dashboard/authors-list">Authors</a>
-                        <a class="dropdown-item" href="/lib-dashboard/books-list">Books</a>
+                        <a class="dropdown-item" href="/lib-dashboard/books-list/page/1/?phrase=">Books</a>
                     </div>
                 </li>
                 </div>

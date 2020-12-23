@@ -4,6 +4,7 @@ import kn18012.librarymanagement.domain.Book;
 import kn18012.librarymanagement.domain.User;
 import kn18012.librarymanagement.service.AuthorService;
 import kn18012.librarymanagement.service.BookService;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/lib-dashboard")
@@ -24,10 +26,17 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping("/books-list")
-    public String showAllBooksList(@AuthenticationPrincipal User user, Model model) {
+    @GetMapping("/books-list/page/{pageNumber}")
+    public String showBooksByPage(@AuthenticationPrincipal User user, @PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
+        Page<Book> page = bookService.searchForBook(phrase, pageNumber);
+        List<Book> books = page.getContent();
+
         model.addAttribute("user", user);
-        model.addAttribute("books", bookService.findAll());
+        model.addAttribute("books", books);
+        model.addAttribute("phrase", phrase);
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+
         return "lib/book-list";
     }
 
@@ -47,7 +56,7 @@ public class BookController {
         }
 
         bookService.save(book);
-        return "redirect:/lib-dashboard/books-list";
+        return "redirect:/lib-dashboard/books-list/page/1/?phrase=";
     }
 
     @GetMapping("/edit-book/{bookId}")
@@ -66,13 +75,13 @@ public class BookController {
         }
 
         bookService.update(id, book);
-        return "redirect:/lib-dashboard/books-list";
+        return "redirect:/lib-dashboard/books-list/page/1/?phrase=";
     }
 
     @DeleteMapping
     @RequestMapping("/delete-book/{bookId}")
     public String delete(@PathVariable("bookId") Long bookId) {
         bookService.deleteBookById(bookId);
-        return "redirect:/lib-dashboard";
+        return "redirect:/lib-dashboard/books-list/page/1/?phrase=";
     }
 }

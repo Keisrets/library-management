@@ -14,14 +14,14 @@
         </div>
         <div class="form-group">
             <label class="control-label" for="genre">Genre</label>
-            <select required th:field="*{genre}" class="selectpicker" data-live-search="true">
+            <select style="width:100%" required th:field="*{genre}" class="selectpicker" data-live-search="true">
                 <option th:each="genre : ${genres}" th:value="${genre.id}"
                         th:text="${genre.genre}"></option>
             </select>
         </div>
         <div class="form-group">
             <label class="control-label">Author</label>
-            <select th:field="*{authors}" multiple>
+            <select style="width:100%" required th:field="*{authors}" multiple class="selectpicker" data-live-search="true">
                 <option th:each="auth : ${allAuthors}" th:value="${auth.id}"
                         th:text="${auth.firstName + ' ' + auth.lastName}"></option>
             </select>
@@ -37,6 +37,7 @@
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-success">Save book</button>
+            <a style="float:right;" class="btn btn-danger" th:href="@{/lib-dashboard/delete-book/{bookId}(bookId = ${book.id})}">Delete book</a>
         </div>
     </form>
 </div>
