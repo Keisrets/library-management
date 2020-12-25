@@ -7,6 +7,9 @@ import kn18012.librarymanagement.repository.BookRepository;
 import kn18012.librarymanagement.repository.LoanRepository;
 import kn18012.librarymanagement.service.BookService;
 import kn18012.librarymanagement.service.LoanService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
@@ -32,6 +35,12 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public List<Loan> findLoansByUser(User user) {
         return loanRepository.findLoansByUser(user);
+    }
+
+    @Override
+    public Page<Loan> searchForLoan(String phrase, int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, 8);
+        return loanRepository.findLoansByUser_FirstNameIgnoreCaseContainingOrUser_LastNameIgnoreCaseContaining(phrase, phrase, pageable);
     }
 
     @Override
