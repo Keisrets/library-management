@@ -5,8 +5,8 @@
 </head>
 <body>
 <div th:replace="fragments/navbar"></div>
-<div class="container" style="width: 50%; margin-top: 50px; padding: 20px; border-radius: 10px; background: #ededed;">
-    <h3 style="text-align: center; margin-bottom: 20px;">Create New Loan</h3>
+<div class="container form-container-block">
+    <h3 class="form-container-title">Create New Loan</h3>
     <form th:action="@{/lib-dashboard/create-loan}" method="post" th:object="${loan}">
         <div class="form-group">
             <p>User</p>

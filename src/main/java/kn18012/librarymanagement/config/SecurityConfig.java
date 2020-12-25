@@ -1,5 +1,6 @@
 package kn18012.librarymanagement.config;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,6 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/", "/results/**", "/book/**").permitAll()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .and().authorizeRequests().antMatchers("/login", "/register").permitAll()
                 .and().authorizeRequests().antMatchers("/lib-admin/**").access("hasAuthority('admin')")
                 .and().authorizeRequests().antMatchers("/lib-dashboard/**").access("hasAnyAuthority('librarian', 'admin')").anyRequest().authenticated()

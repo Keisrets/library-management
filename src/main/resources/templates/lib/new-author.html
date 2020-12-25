@@ -5,8 +5,8 @@
 </head>
 <body>
 <div th:replace="fragments/navbar"></div>
-<div class="container" style="width: 50%; margin-top: 100px; padding: 20px; border-radius: 10px; background: #ededed;">
-    <h3 style="text-align: center; margin-bottom: 20px;">Add New Author</h3>
+<div class="container form-container-block">
+    <h3 class="form-container-title">Add New Author</h3>
     <form th:action="@{/lib-dashboard/create-author}" method="post" th:object="${author}">
         <div class="form-group">
             <label class="control-label" for="firstName">First Name</label>

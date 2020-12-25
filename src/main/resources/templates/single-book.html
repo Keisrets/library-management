@@ -5,21 +5,18 @@
 </head>
 <body>
 <div th:replace="fragments/navbar"></div>
-<div class="container"
-     style="position:relative;width: 60%; min-height:300px;border-radius: 4px;padding: 0;margin-top:50px; margin-bottom:50px;">
-    <div style="background:black;color:white;width:100%;padding:15px;">
-        <h1 style="font-weight: bold;" th:text="${book.title}"></h1>
-        <span style="font-size: 1.1em;font-style:italic;" class="authors-span" th:each="a, iterStat : ${book.authors}"
+<div class="container single-book-container">
+    <div class="single-book-container-header">
+        <b><h1 th:text="${book.title}"></h1></b>
+        <span class="authors-span" th:each="a, iterStat : ${book.authors}"
               th:text="${!iterStat.last} ? ${a.firstName + ' ' + a.lastName} + ', ': ${a.firstName + ' ' + a.lastName}"></span>
     </div>
-    <div style="background: #80808012;width:100%;min-height:250px;padding:15px">
-        <p style="font-weight:bold;margin-bottom:0">Description: </p>
-        <p style="padding:0px 10px 10px 10px;line-height:22px;" th:text="${book.description}"></p>
-        <p class="availability-msg" style="font-weight:bold;color:green;text-align:center;position:absolute;bottom:0;right:20px;" th:text="${book.quantity > 0} ? 'Available'"></p>
-        <p class="availability-msg" style="font-weight:bold;color:red;text-align:center;position:absolute;bottom:0;right:20px;" th:text="${book.quantity} == 0 ? 'Out of Stock' "></p>
+    <div class="single-book-container-body">
+        <p class="single-book-container-body-desc-title" style="">Description: </p>
+        <p class="single-book-container-body-desc" th:text="${book.description}"></p>
+        <p class="availability-msg" th:text="${book.quantity > 0} ? 'Available'"></p>
+        <p class="availability-msg txt-red" th:text="${book.quantity} == 0 ? 'Out of Stock' "></p>
     </div>
-
-
 </div>
 </body>
 </html>

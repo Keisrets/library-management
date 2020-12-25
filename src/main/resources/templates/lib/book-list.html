@@ -1,63 +1,67 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/top"></div>
 <head>
-    <meta charset="UTF-8">
     <title>All Books</title>
     <div th:replace="fragments/includes"></div>
 </head>
 <body>
 <div th:replace="fragments/navbar"></div>
-<div class="container" style="margin-top: 50px; margin-bottom: 100px;">
-    <h1 style="text-align: center;">Books</h1>
-    <form style="margin-bottom: 50px;" th:action="@{/lib-dashboard/books-list/page/1}" method="GET">
-        <div class="input-group">
-            <input style="height: 50px;" type="text" name="phrase" class="form-control" placeholder="Search book by title" th:value="${phrase}">
-            <div class="input-group-append">
-                <input style="width:100px;" class="btn btn-secondary" type="submit" value="Search">
+<div class="container">
+    <div class="container-section">
+        <h1 class="container-title">Books</h1>
+        <form class="search-form" th:action="@{/results/page/1}" method="GET">
+            <div class="input-group">
+                <input class="form-control search-form-text" type="text" name="phrase" placeholder="Search book by title" th:value="${phrase}">
+                <div class="input-group-append">
+                    <input class="btn btn-secondary" type="submit" value="Search">
+                </div>
             </div>
-        </div>
-    </form>
-    <table class="table table-hover">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col">Book ID</th>
-            <th scope="col">Title</th>
-            <th scope="col">Genre</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Authors</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr scope="row" th:each="book : ${books}">
-            <td th:text="${book.id}"></td>
-            <td th:text="${book.title}"></td>
-            <td th:text="${book.genre?.genre}"></td>
-            <td th:text="${book.quantity}"></td>
-            <td style="max-width:350px;">
-                <span th:each="a, iterStat : ${book.authors}" th:text="${!iterStat.last} ? ${a.firstName + ' ' + a.lastName} + ', ': ${a.firstName + ' ' + a.lastName}"></span>
-            </td>
-            <td>
-                <a class="btn btn-primary" th:href="@{/lib-dashboard/edit-book/{bookId}(bookId=${book.id})}" th:text="Update"></a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+        </form>
+        <table class="table table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Book ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Genre</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Authors</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr scope="row" th:each="book : ${books}">
+                <td th:text="${book.id}"></td>
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.genre?.genre}"></td>
+                <td th:text="${book.quantity}"></td>
+                <td class="table-author-col">
+                    <span th:each="a, iterStat : ${book.authors}"
+                          th:text="${!iterStat.last} ? ${a.firstName + ' ' + a.lastName} + ', ': ${a.firstName + ' ' + a.lastName}"></span>
+                </td>
+                <td>
+                    <a class="btn btn-primary" th:href="@{/lib-dashboard/edit-book/{bookId}(bookId=${book.id})}"
+                       th:text="Update"></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-    <div class="d-flex">
-        <ul class="pagination pagination-sm mx-auto" style="margin: 0 auto;">
-            <a th:if="${currentPage > 1}" th:href="@{/lib-dashboard/books-list/page/{pageNumber}(pageNumber = ${currentPage-1}, phrase = ${phrase})}"
-               class="page-item page-link">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <li class="page-item disabled"><a class="page-link" href="#" th:text="${currentPage}"></a></li>
-            <a th:if="${currentPage != totalPages}" th:href="@{/lib-dashboard/books-list/page/{pageNumber}(pageNumber = ${currentPage + 1}, phrase = ${phrase})}"
-               class="page-link">
-                <span aria-hidden="true">&raquo;</span>
-                <span class="sr-only">Next</span>
-            </a>
-        </ul>
+        <div class="d-flex">
+            <ul class="pagination pagination-sm mx-auto page-numbers-block">
+                <a th:if="${currentPage > 1}"
+                   th:href="@{/lib-dashboard/books-list/page/{pageNumber}(pageNumber = ${currentPage-1}, phrase = ${phrase})}"
+                   class="page-item page-link">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <li class="page-item disabled"><a class="page-link" href="#" th:text="${currentPage}"></a></li>
+                <a th:if="${currentPage != totalPages}"
+                   th:href="@{/lib-dashboard/books-list/page/{pageNumber}(pageNumber = ${currentPage + 1}, phrase = ${phrase})}"
+                   class="page-link">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </ul>
+        </div>
     </div>
 </div>
 </body>
