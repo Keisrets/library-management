@@ -9,7 +9,6 @@ public class RedirectUrlBuilder {
 
         if(role.contains("admin"))
             return "redirect:/lib-admin";
-
         else if(role.contains("librarian"))
             return "redirect:/lib-dashboard";
         else
