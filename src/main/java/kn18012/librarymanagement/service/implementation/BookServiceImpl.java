@@ -9,6 +9,7 @@ import kn18012.librarymanagement.service.BookService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,8 +39,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Page<Book> searchForBook(String phrase, int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, 8);
-        return bookRepository.findByTitleContainingIgnoreCaseOrAuthors_FirstNameContainingIgnoreCaseOrAuthors_LastNameContainingIgnoreCase(phrase, phrase, phrase, pageable);
+        Pageable pageable = PageRequest.of(pageNumber - 1, 8, Sort.by("id"));
+        return bookRepository.findByTitleContainingIgnoreCase(phrase, pageable);
     }
 
     @Override
