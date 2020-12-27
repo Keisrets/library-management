@@ -39,7 +39,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Page<Book> searchForBook(String phrase, int pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber - 1, 8);
-        return bookRepository.findByTitleContainingIgnoreCase(phrase, pageable);
+        return bookRepository.findByTitleContainingIgnoreCaseOrAuthors_FirstNameContainingIgnoreCaseOrAuthors_LastNameContainingIgnoreCase(phrase, phrase, phrase, pageable);
     }
 
     @Override
