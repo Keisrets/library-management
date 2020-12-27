@@ -38,6 +38,8 @@
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-success">Save</button>
+            <a class="btn btn-danger float-right"
+               th:href="@{/lib-admin/delete-user/{userId}(userId=${userToEdit.id})}">Delete User</a>
         </div>
     </form>
 </div>

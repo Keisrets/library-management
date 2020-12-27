@@ -1,8 +1,10 @@
 package kn18012.librarymanagement.controller;
 
+import kn18012.librarymanagement.domain.Loan;
 import kn18012.librarymanagement.domain.Role;
 import kn18012.librarymanagement.domain.User;
 import kn18012.librarymanagement.service.UserService;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/lib-admin")
@@ -24,9 +27,7 @@ public class AdminController {
 
     @GetMapping()
     public String index(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("users", userService.findAll());
-        model.addAttribute("user", user);
-        return "adm/index";
+        return "redirect:/lib-admin/users/page/1/?phrase=";
     }
 
     @GetMapping("/new-user")
@@ -75,5 +76,18 @@ public class AdminController {
     public String delete(@PathVariable("userId") Long id) {
         userService.deleteById(id);
         return "redirect:/lib-admin";
+    }
+
+    @GetMapping("/users/page/{pageNumber}")
+    public String pagedUsers(@AuthenticationPrincipal User user, @PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
+        Page<User> page = userService.searchForUser(phrase, pageNumber);
+        List<User> users = page.getContent();
+
+        model.addAttribute("user", user);
+        model.addAttribute("users", users);
+        model.addAttribute("phrase", phrase);
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+        return "adm/index";
     }
 }

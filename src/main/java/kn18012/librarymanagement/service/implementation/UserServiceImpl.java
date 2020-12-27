@@ -1,9 +1,13 @@
 package kn18012.librarymanagement.service.implementation;
 
+import kn18012.librarymanagement.domain.Loan;
 import kn18012.librarymanagement.domain.Role;
 import kn18012.librarymanagement.domain.User;
 import kn18012.librarymanagement.repository.UserRepository;
 import kn18012.librarymanagement.service.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -58,6 +62,12 @@ public class UserServiceImpl implements UserService {
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public Page<User> searchForUser(String phrase, int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, 8);
+        return userRepository.findByEmailIgnoreCaseContainingOrFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContaining(phrase, phrase, phrase, pageable);
     }
 
     public List<User> findAllByRole(Role role) {
