@@ -39,7 +39,7 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public Page<Loan> searchForLoan(String phrase, int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, 8);
+        Pageable pageable = PageRequest.of(pageNumber - 1, 30);
         return loanRepository.findLoansByUser_FirstNameIgnoreCaseContainingOrUser_LastNameIgnoreCaseContaining(phrase, phrase, pageable);
     }
 
@@ -59,7 +59,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public Loan updateLoan(Long id) {
+    public Loan update(Long id) {
         Loan updatedLoan = loanRepository.findById(id).orElse(null);
         LocalDate date = updatedLoan.getEnd_date();
 

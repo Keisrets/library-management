@@ -1,6 +1,5 @@
 package kn18012.librarymanagement.service;
 
-import kn18012.librarymanagement.domain.Loan;
 import kn18012.librarymanagement.domain.Role;
 import kn18012.librarymanagement.domain.User;
 import org.springframework.data.domain.Page;
@@ -27,7 +26,7 @@ public interface UserService extends UserDetailsService {
 
     User saveUser(User user, ArrayList<Role> roles);
 
-    User updateUser(Long id, User user);
+    User update(Long id, User user);
 
     void deleteById(Long id);
 }

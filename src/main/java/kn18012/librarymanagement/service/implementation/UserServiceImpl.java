@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> searchForUser(String phrase, int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, 8);
+        Pageable pageable = PageRequest.of(pageNumber - 1, 30);
         return userRepository.findByEmailIgnoreCaseContainingOrFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContaining(phrase, phrase, phrase, pageable);
     }
 
@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    public User updateUser(Long id, User user) {
+    public User update(Long id, User user) {
         // need to handle exception if user not found.
         User update = userRepository.findById(id).orElse(null);
 
