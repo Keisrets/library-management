@@ -60,15 +60,19 @@ public class AuthorServiceImpl implements AuthorService {
         Author toDelete = authorRepository.findById(id).orElse(null);
         Set<Book> bookIds = toDelete.getBooks();
 
-        for (Book book : bookIds) {
-            Book toUpdate = bookRepository.findById(book.getId()).orElse(null);
-            if(toUpdate != null) {
-                toUpdate.getAuthors().remove(toDelete);
+        // delete author from associated book object author sets
+        if(bookIds.size() > 0) {
+            for (Book book : bookIds) {
+                Book toUpdate = bookRepository.findById(book.getId()).orElse(null);
+                if(toUpdate != null) {
+                    toUpdate.getAuthors().remove(toDelete);
+                }
+                toUpdate = null;
             }
-            toUpdate = null;
+
+            toDelete.getBooks().clear();
         }
 
-        toDelete.getBooks().clear();
         authorRepository.delete(toDelete);
     }
 }
