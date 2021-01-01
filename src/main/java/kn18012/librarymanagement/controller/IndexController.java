@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -39,7 +40,8 @@ public class IndexController {
     }
 
     @GetMapping("/my-loans")
-    public String showLoanView(Principal principal, @AuthenticationPrincipal User user, Model model) {
+    public String userLoansView(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("current_date", LocalDate.now());
         model.addAttribute("user", user);
         model.addAttribute("loans", loanService.findLoansByUser(user));
         return "usr/loans";
@@ -62,7 +64,7 @@ public class IndexController {
         }
 
         user.setPassword(newPassword);
-        userService.updateUser(user.getId(), user);
+        userService.update(user.getId(), user);
 
         // redirect user based on role
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -70,7 +72,7 @@ public class IndexController {
     }
 
     @GetMapping("/results/page/{pageNumber}")
-    public String showSearchResults(@AuthenticationPrincipal User user, @PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
+    public String pagedSearchResults(@AuthenticationPrincipal User user, @PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
         Page<Book> page = bookService.searchForBook(phrase, pageNumber);
         List<Book> books = page.getContent();
 
@@ -83,7 +85,7 @@ public class IndexController {
     }
 
     @GetMapping("/book/{bookId}")
-    public String showSingleBookView(@AuthenticationPrincipal User user, @PathVariable("bookId") Long bookId, Model model) {
+    public String singleBookView(@AuthenticationPrincipal User user, @PathVariable("bookId") Long bookId, Model model) {
         Book theBook = bookService.findById(bookId);
         model.addAttribute("book", theBook);
         model.addAttribute("user", user);

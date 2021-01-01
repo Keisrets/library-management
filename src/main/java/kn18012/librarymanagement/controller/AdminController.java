@@ -1,6 +1,5 @@
 package kn18012.librarymanagement.controller;
 
-import kn18012.librarymanagement.domain.Loan;
 import kn18012.librarymanagement.domain.Role;
 import kn18012.librarymanagement.domain.User;
 import kn18012.librarymanagement.service.UserService;
@@ -25,14 +24,13 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping()
-    public String index(@AuthenticationPrincipal User user, Model model) {
+    @GetMapping
+    public String index() {
         return "redirect:/lib-admin/users/page/1/?phrase=";
     }
 
     @GetMapping("/new-user")
-    public String addUserView(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("user", user);
+    public String addUserView(Model model) {
         model.addAttribute("newUser", new User());
         model.addAttribute("roles", userService.findAllRoles());
         return "adm/new-user";
@@ -51,35 +49,35 @@ public class AdminController {
 
         ArrayList<Role> roles = (ArrayList<Role>) user.getRoles();
         userService.saveUser(user, roles);
-        return "redirect:/lib-admin";
+        return "redirect:/lib-admin/users/page/1/?phrase=&user_creation=success";
     }
 
     @GetMapping("/edit-user/{userId}")
-    public String editLibrarianView(@AuthenticationPrincipal User user, @PathVariable("userId") Long id, Model model) {
+    public String editUserView(@AuthenticationPrincipal User user, @PathVariable("userId") Long id, Model model) {
         model.addAttribute("user", user);
         model.addAttribute("userToEdit", userService.findById(id));
         return "adm/edit-user";
     }
 
     @PostMapping("/update-user/{userId}")
-    public String update(@PathVariable("userId") Long id, @Valid @ModelAttribute User user, BindingResult bindingResult) {
+    public String updateUser(@PathVariable("userId") Long id, @Valid @ModelAttribute User user, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return "adm/edit-user";
         }
 
-        userService.updateUser(id, user);
-        return "redirect:/lib-admin";
+        userService.update(id, user);
+        return "redirect:/lib-admin/users/page/1/?phrase=&user_update=success";
     }
 
     @DeleteMapping
     @RequestMapping("/delete-user/{userId}")
-    public String delete(@PathVariable("userId") Long id) {
+    public String deleteUser(@PathVariable("userId") Long id) {
         userService.deleteById(id);
-        return "redirect:/lib-admin";
+        return "redirect:/lib-admin/users/page/1/?phrase=&user_delete=success";
     }
 
     @GetMapping("/users/page/{pageNumber}")
-    public String pagedUsers(@AuthenticationPrincipal User user, @PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
+    public String pagedUserView(@AuthenticationPrincipal User user, @PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
         Page<User> page = userService.searchForUser(phrase, pageNumber);
         List<User> users = page.getContent();
 

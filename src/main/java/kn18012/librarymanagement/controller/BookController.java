@@ -27,7 +27,7 @@ public class BookController {
     }
 
     @GetMapping("/books-list/page/{pageNumber}")
-    public String showBooksByPage(@AuthenticationPrincipal User user, @PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
+    public String pagedBookView(@AuthenticationPrincipal User user, @PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
         Page<Book> page = bookService.searchForBook(phrase, pageNumber);
         List<Book> books = page.getContent();
 
@@ -56,7 +56,7 @@ public class BookController {
         }
 
         bookService.save(book);
-        return "redirect:/lib-dashboard/books-list/page/1/?phrase=";
+        return "redirect:/lib-dashboard/books-list/page/1/?phrase=&book_create=success";
     }
 
     @GetMapping("/edit-book/{bookId}")
@@ -69,19 +69,19 @@ public class BookController {
     }
 
     @PostMapping("/update-book/{bookId}")
-    public String update(@PathVariable("bookId") Long id, @Valid @ModelAttribute Book book, BindingResult bindingResult) {
+    public String updateBook(@PathVariable("bookId") Long id, @Valid @ModelAttribute Book book, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return "lib/new-book";
         }
 
         bookService.update(id, book);
-        return "redirect:/lib-dashboard/books-list/page/1/?phrase=";
+        return "redirect:/lib-dashboard/books-list/page/1/?phrase=&book_update=success";
     }
 
     @DeleteMapping
     @RequestMapping("/delete-book/{bookId}")
-    public String delete(@PathVariable("bookId") Long bookId) {
+    public String deleteBook(@PathVariable("bookId") Long bookId) {
         bookService.deleteBookById(bookId);
-        return "redirect:/lib-dashboard/books-list/page/1/?phrase=";
+        return "redirect:/lib-dashboard/books-list/page/1/?phrase=&book_delete=success";
     }
 }
