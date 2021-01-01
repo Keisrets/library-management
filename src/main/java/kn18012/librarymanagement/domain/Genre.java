@@ -1,8 +1,8 @@
 package kn18012.librarymanagement.domain;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Genre {
@@ -12,11 +12,11 @@ public class Genre {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "genre_name")
+    @Column(name = "genre_name", length = 30)
     private String genre;
 
     @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL, mappedBy = "genre")
-    private List<Book> books = new ArrayList<>();
+    private Set<Book> books = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -34,11 +34,11 @@ public class Genre {
         this.genre = genre;
     }
 
-    public List<Book> getBooks() {
+    public Set<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(Set<Book> books) {
         this.books = books;
     }
 }

@@ -1,6 +1,7 @@
 package kn18012.librarymanagement.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,9 +13,11 @@ public class Author {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @NotBlank(message = "First name must not be empty!")
     @Column(name = "first_name", length = 30)
     private String firstName;
 
+    @NotBlank(message = "Last name must not be empty!")
     @Column(name = "last_name", length = 30)
     private String lastName;
 

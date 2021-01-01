@@ -15,20 +15,20 @@ public class User implements UserDetails {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @NotBlank(message = "Error: First name can't be empty!")
+    @NotBlank(message = "First name can't be empty!")
     @Column(name = "first_name", length = 30)
     private String firstName;
 
-    @NotBlank(message = "Error: Last name can't be empty!")
+    @NotBlank(message = "Last name can't be empty!")
     @Column(name = "last_name", length = 30)
     private String lastName;
 
     @Column(name = "email", length = 80, unique = true)
-    @Size(min = 5, max = 80, message = "Error: Invalid e-mail!")
+    @Size(min = 5, max = 80, message = "Invalid e-mail!")
     private String email;
 
     @Column(name = "password", length = 60)
-    @Size(min = 6, max = 60, message = "Error: Minimal password length is 6 characters!")
+    @Size(min = 6, max = 60, message = "Minimal password length is 6 characters!")
     private String password;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
