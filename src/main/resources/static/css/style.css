@@ -78,3 +78,27 @@
 }
 
 .txt-red { color: red; }
+
+#notification {
+    width: 20%;
+    position: absolute;
+    display: none;
+    top: 40px;
+    right: 30px;
+    min-height: 80px;
+    color: white;
+    font-weight: bold;
+    border-radius: 3px;
+    padding: 5px;
+    text-align: center;
+}
+
+.reg-log-message {
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+.success-message { background: #78cc78c7;; }
+.error-message { background: #ff000075;  }

@@ -5,3 +5,13 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 <link rel="stylesheet" th:href="@{/css/style.css}">
+
+<script>
+    setTimeout(function() {
+        $('#notification').fadeIn().display('visible');
+    }, 300 );
+
+    setTimeout(function() {
+        $('#notification').fadeOut().display('none');
+    }, 3500 );
+</script>

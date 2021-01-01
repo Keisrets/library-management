@@ -5,10 +5,11 @@
 </head>
 <body>
 <div th:replace="fragments/navbar"></div>
+<div th:replace="fragments/notifications"></div>
 <div class="container">
     <div class="container-section">
         <h1 class="container-title">Books</h1>
-        <form class="search-form" th:action="@{/results/page/1}" method="GET">
+        <form class="search-form" th:action="@{/lib-dashboard/books-list/page/1}" method="GET">
             <div class="input-group">
                 <input class="form-control search-form-text" type="text" name="phrase" placeholder="Search book by title" th:value="${phrase}">
                 <div class="input-group-append">
@@ -16,20 +17,18 @@
                 </div>
             </div>
         </form>
-        <table class="table table-hover">
+        <table th:unless="${books.size() == 0}" class="table table-hover">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">Book ID</th>
                 <th scope="col">Title</th>
                 <th scope="col">Genre</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Authors</th>
-                <th scope="col">Actions</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr scope="row" th:each="book : ${books}">
-                <td th:text="${book.id}"></td>
                 <td th:text="${book.title}"></td>
                 <td th:text="${book.genre?.genre}"></td>
                 <td th:text="${book.quantity}"></td>
@@ -39,13 +38,13 @@
                 </td>
                 <td>
                     <a class="btn btn-primary" th:href="@{/lib-dashboard/edit-book/{bookId}(bookId=${book.id})}"
-                       th:text="Update"></a>
+                       th:text="Edit"></a>
                 </td>
             </tr>
             </tbody>
         </table>
 
-        <div class="d-flex">
+        <div class="d-flex" th:unless="${books.size() == 0}">
             <ul class="pagination pagination-sm mx-auto page-numbers-block">
                 <a th:if="${currentPage > 1}"
                    th:href="@{/lib-dashboard/books-list/page/{pageNumber}(pageNumber = ${currentPage-1}, phrase = ${phrase})}"
@@ -62,6 +61,8 @@
                 </a>
             </ul>
         </div>
+
+        <div th:if="${books.size() == 0}"><h3 class="container-title">Nothing found.</h3></div>
     </div>
 </div>
 </body>

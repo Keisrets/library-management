@@ -11,7 +11,7 @@
         <div class="form-group">
             <label class="control-label" for="title">Title</label>
             <input required id="title" class="form-control" th:field="*{title}">
-            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+            <p class="txt-red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
         </div>
         <div class="form-group">
             <label class="control-label" for="genre">Genre</label>
@@ -23,18 +23,21 @@
         <div class="form-group">
             <label class="control-label">Author/s</label>
             <select required th:field="*{authors}" class="selectpicker" multiple data-live-search="true">
+
                 <option th:each="auth : ${allAuthors}" th:value="${auth.id}"
                         th:text="${auth.firstName + ' ' + auth.lastName}"></option>
+                <option value="" selected hidden></option>
             </select>
         </div>
         <div class="form-group">
             <label class="control-label" for="description">Description</label>
             <input required id="description" class="form-control" th:field="*{description}">
+            <p class="txt-red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
         </div>
         <div class="form-group">
             <label class="control-label" for="quantity">Quantity</label>
             <input required id="quantity" value="1" type="number" min="1" class="form-control" th:field="*{quantity}">
-            <p th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></p>
+            <p class="txt-red" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></p>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-success">Add book</button>

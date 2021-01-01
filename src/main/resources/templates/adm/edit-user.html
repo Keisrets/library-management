@@ -6,42 +6,48 @@
 <body>
 <div th:replace="fragments/navbar"></div>
 <div class="container form-container-block">
-    <h3 class="form-container-title">Edit User</h3>
-    <form th:action="@{/lib-admin/update-user/{userId}(userId = ${userToEdit.id})}" method="post"
-          th:object="${userToEdit}">
-        <div class="form-group">
-            <label class="control-label" for="firstName">First Name</label>
-            <input id="firstName" class="form-control" th:field="*{firstName}">
-            <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="lastName">Last Name</label>
-            <input id="lastName" class="form-control" th:field="*{lastName}">
-            <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="email">E-mail</label>
-            <input id="email" class="form-control" th:field="*{email}" type="email">
-            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="password">New Password</label>
-            <input required id="password" class="form-control" th:field="*{password}" type="password">
-            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-        </div>
-        <div class="form-group">
-            <label class="control-label">Role</label>
-            <select th:field="*{roles}">
-                <option th:each="role : ${T(kn18012.librarymanagement.domain.Role).values()}" th:value="${role}"
-                        th:text="${role}"></option>
-            </select>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-success">Save</button>
-            <a class="btn btn-danger float-right"
-               th:href="@{/lib-admin/delete-user/{userId}(userId=${userToEdit.id})}">Delete User</a>
-        </div>
-    </form>
+    <div th:if="${userToEdit == null}">
+        <h2 th:text="'Invalid request!'"
+            style="text-align:center; margin-top:100px;padding:40px 0px;background:#e2e2e2;"></h2>
+    </div>
+    <div th:unless="${userToEdit == null}">
+        <h3 class="form-container-title">Edit User</h3>
+        <form th:action="@{/lib-admin/update-user/{userId}(userId = ${userToEdit.id})}" method="post"
+              th:object="${userToEdit}">
+            <div class="form-group">
+                <label class="control-label" for="firstName">First Name</label>
+                <input id="firstName" class="form-control" th:field="*{firstName}">
+                <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="lastName">Last Name</label>
+                <input id="lastName" class="form-control" th:field="*{lastName}">
+                <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+            </div>
+            <div class="form-group" style="display:none;">
+                <label class="control-label" for="email">E-mail</label>
+                <input id="email" class="form-control" th:field="*{email}" type="email">
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="password">New Password</label>
+                <input required id="password" class="form-control" th:field="*{password}" type="password">
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Role</label>
+                <select th:field="*{roles}">
+                    <option th:each="role : ${T(kn18012.librarymanagement.domain.Role).values()}" th:value="${role}"
+                            th:text="${role}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Save</button>
+                <a class="btn btn-danger float-right"
+                   th:href="@{/lib-admin/delete-user/{userId}(userId=${userToEdit.id})}">Delete User</a>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 </html>

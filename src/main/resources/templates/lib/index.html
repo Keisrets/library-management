@@ -5,12 +5,13 @@
 </head>
 <body>
 <div th:replace="fragments/navbar"></div>
+<div th:replace="fragments/notifications"></div>
 <div class="container">
     <div class="container-section">
         <h1 class="container-title">Loans</h1>
         <form class="search-form" th:action="@{/lib-dashboard/loans/page/1}" method="GET">
             <div class="input-group">
-                <input class="form-control search-form-text" type="text" name="phrase" placeholder="Search book by title" th:value="${phrase}">
+                <input class="form-control search-form-text" type="text" name="phrase" placeholder="Search loan by user name.." th:value="${phrase}">
                 <div class="input-group-append">
                     <input class="btn btn-secondary" type="submit" value="Search">
                 </div>
@@ -19,8 +20,8 @@
         <table th:unless="${loans.size() == 0}" class="table table-hover">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">Loan ID</th>
                 <th scope="col">Name</th>
+                <th scope="col">Email</th>
                 <th scope="col">Book</th>
                 <th scope="col">Start date</th>
                 <th scope="col">End date</th>
@@ -29,16 +30,14 @@
             </thead>
             <tbody>
             <tr scope="row" th:each="loan : ${loans}">
-                <td th:text="${loan.id}"></td>
                 <td th:text="${loan.user.firstName + ' ' + loan.user.lastName}"></td>
+                <td th:text="${loan.user.email}"></td>
                 <td th:text="${loan.book.title}"></td>
                 <td th:text="${loan.start_date}"></td>
                 <td th:text="${loan.end_date}"></td>
                 <td>
                     <a class="float-left" th:href="@{/lib-dashboard/delete-loan/{loanId}(loanId=${loan.id})}"
                        th:text="Delete"></a>
-                    <a class="float-right" th:href="@{/lib-dashboard/update-loan/{loanId}(loanId=${loan.id})}"
-                       th:text="Postpone"></a>
                 </td>
             </tr>
             </tbody>

@@ -7,7 +7,7 @@
 <div th:replace="fragments/navbar"></div>
 <div class="container">
     <div class="container-section">
-        <h1 class="container-title">Loans</h1>
+        <h1 class="container-title">My Loans</h1>
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
@@ -20,7 +20,7 @@
             <tr scope="row" th:each="loan : ${loans}">
                 <td th:text="${loan.book.title}"></td>
                 <td th:text="${loan.start_date}"></td>
-                <td th:text="${loan.end_date}"></td>
+                <td th:style="${loan.end_date.compareTo(current_date) <= 0 ? 'font-weight:bold;color:red' : 'color:black'}" th:text="${loan.end_date}"></td>
             </tr>
             </tbody>
         </table>

@@ -11,19 +11,28 @@
         <div class="form-group">
             <p>User</p>
             <select class="selectpicker" data-live-search="true" th:field="*{user}">
-                <option disabled selected value="">Select user...</option>
+                <option selected value="">Select user...</option>
                 <option name="userId" th:each="usr : ${allUsers}" th:value="${usr.id}"
                         th:text="${usr.firstName + ' ' + usr.lastName}"></option>
             </select>
+            <p class="txt-red" th:text="${error_user}"></p>
         </div>
         <div class="form-group">
             <p>Book</p>
             <select name="bookId" th:field="*{book}" class="selectpicker" data-live-search="true">
-                <option th:each="bk : ${allBooks}" th:if="${bk.quantity > 0}" th:value="${bk.id}" th:text="${bk.title}"></option>
+                <option selected value="">Select book...</option>
+                <div th:each="bk : ${allBooks}">
+                    <div th:if="${bk.quantity > 0}">
+                        <option th:value="${bk.id}" th:text="${bk.title}"></option>
+                    </div>
+                </div>
             </select>
+            <p class="txt-red" th:text="${error_book}"></p>
         </div>
-        <div class="form-group">
-            <input type="date" name="date" value="">
+        <div class="form-group" id="date-picker">
+            <p>Date</p>
+            <input type="text" class="form-control" name="date">
+            <p class="txt-red" th:text="${error_date}"></p>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-success">Create Loan</button>
@@ -32,3 +41,21 @@
 </div>
 </body>
 </html>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+
+<script>
+var $c = jQuery.noConflict();
+
+$c('#date-picker input').datepicker({
+    format: "yyyy-mm-dd",
+    startDate: "-0d",
+    maxViewMode: 1,
+    clearBtn: true,
+    daysOfWeekDisabled: "0,6",
+    daysOfWeekHighlighted: "0,6",
+    autoclose: true,
+    todayHighlight: true
+});
+</script>

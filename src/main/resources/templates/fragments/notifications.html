@@ -1,0 +1,83 @@
+<div th:if="${(param.registration != null) and (param.registration[0] == 'success')}">
+    <div id="notification" class="reg-log-message success-message">
+        <p>Registration Successful</p>
+    </div>
+</div>
+
+<div th:if="${(param.failed != null)}">
+    <div id="notification" class="reg-log-message error-message">
+        <p>Invalid e-mail or password!</p>
+    </div>
+</div>
+
+<div th:if="${(param.password_change != null) and (param.password_change[0] == 'success')}">
+    <div id="notification" class="reg-log-message success-message">
+        <p>Password changed successfully</p>
+    </div>
+</div>
+
+<div th:if="${(param.user_creation != null) and (param.user_creation[0] == 'success')}">
+    <div id="notification" class="reg-log-message success-message">
+        <p>User created successfully</p>
+    </div>
+</div>
+
+<div th:if="${(param.user_update != null) and (param.user_update[0] == 'success')}">
+    <div id="notification" class="reg-log-message success-message">
+        <p>User updated successfully</p>
+    </div>
+</div>
+
+<div th:if="${(param.user_delete != null) and (param.user_delete[0] == 'success')}">
+    <div id="notification" class="reg-log-message success-message">
+        <p>User deleted successfully</p>
+    </div>
+</div>
+
+<div th:if="${(param.book_create != null) and (param.book_create[0] == 'success')}">
+    <div id="notification" class="reg-log-message success-message">
+        <p>Book added successfully</p>
+    </div>
+</div>
+
+<div th:if="${(param.book_update != null) and (param.book_update[0] == 'success')}">
+    <div id="notification" class="reg-log-message success-message">
+        <p>Book updated successfully</p>
+    </div>
+</div>
+
+<div th:if="${(param.book_delete != null) and (param.book_delete[0] == 'success')}">
+    <div id="notification" class="reg-log-message success-message">
+        <p>Book deleted successfully</p>
+    </div>
+</div>
+
+<div th:if="${(param.author_create != null) and (param.author_create[0] == 'success')}">
+    <div id="notification" class="reg-log-message success-message">
+        <p>Author added successfully</p>
+    </div>
+</div>
+
+<div th:if="${(param.author_update != null) and (param.author_update[0] == 'success')}">
+    <div id="notification" class="reg-log-message success-message">
+        <p>Author updated successfully</p>
+    </div>
+</div>
+
+<div th:if="${(param.author_delete != null) and (param.author_delete[0] == 'success')}">
+    <div id="notification" class="reg-log-message success-message">
+        <p>Author deleted successfully</p>
+    </div>
+</div>
+
+<div th:if="${(param.loan_create != null) and (param.loan_create[0] == 'success')}">
+    <div id="notification" class="reg-log-message success-message">
+        <p>Loan created successfully</p>
+    </div>
+</div>
+
+<div th:if="${(param.loan_delete != null) and (param.loan_delete[0] == 'success')}">
+    <div id="notification" class="reg-log-message success-message">
+        <p>Loan deleted successfully</p>
+    </div>
+</div>

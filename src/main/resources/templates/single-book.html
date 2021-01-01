@@ -1,22 +1,28 @@
 <div th:replace="fragments/top"></div>
 <head>
-    <title th:text="${book.title}"></title>
+    <title th:text="${book?.title}"></title>
     <div th:replace="fragments/includes"></div>
 </head>
 <body>
 <div th:replace="fragments/navbar"></div>
 <div class="container single-book-container">
+    <div th:if="${book == null}">
+        <h2 th:text="'Invalid request!'" style="text-align:center; margin-top:100px;padding:40px 0px;background:#e2e2e2;"></h2>
+    </div>
+    <div th:unless="${book == null}">
     <div class="single-book-container-header">
         <b><h1 th:text="${book.title}"></h1></b>
         <span class="authors-span" th:each="a, iterStat : ${book.authors}"
               th:text="${!iterStat.last} ? ${a.firstName + ' ' + a.lastName} + ', ': ${a.firstName + ' ' + a.lastName}"></span>
     </div>
     <div class="single-book-container-body">
-        <p class="single-book-container-body-desc-title" style="">Description: </p>
+        <p class="single-book-container-body-desc-title"th:text="'Genre: ' + ${book?.genre.genre}"></p>
+        <p class="single-book-container-body-desc-title">Description: </p>
         <p class="single-book-container-body-desc" th:text="${book.description}"></p>
         <p class="availability-msg" th:text="${book.quantity > 0} ? 'Available'"></p>
         <p class="availability-msg txt-red" th:text="${book.quantity} == 0 ? 'Out of Stock' "></p>
     </div>
+</div>
 </div>
 </body>
 </html>
