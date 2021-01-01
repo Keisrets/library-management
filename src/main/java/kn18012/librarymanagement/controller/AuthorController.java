@@ -3,10 +3,15 @@ package kn18012.librarymanagement.controller;
 import kn18012.librarymanagement.domain.Author;
 import kn18012.librarymanagement.domain.User;
 import kn18012.librarymanagement.service.AuthorService;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/lib-dashboard")
@@ -18,10 +23,15 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
-    @GetMapping("/authors-list")
-    public String allAuthorsView(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("user", user);
-        model.addAttribute("authors", authorService.findAllAuthors());
+    @GetMapping("/authors/page/{pageNumber}")
+    public String pagedAuthorView(@PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
+        Page<Author> page = authorService.searchForAuthor(phrase, pageNumber);
+        List<Author> authors = page.getContent();
+
+        model.addAttribute("authors", authors);
+        model.addAttribute("phrase", phrase);
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
         return "lib/author-list";
     }
 
@@ -35,7 +45,7 @@ public class AuthorController {
     @PostMapping("/create-author")
     public String createAuthor(@ModelAttribute Author author) {
         authorService.save(author);
-        return "redirect:/lib-dashboard/authors-list";
+        return "redirect:/lib-dashboard/authors/page/1?phrase=&author_create=success";
     }
 
     @GetMapping("/edit-author/{authorId}")
@@ -46,15 +56,19 @@ public class AuthorController {
     }
 
     @PostMapping("/update-author/{authorId}")
-    public String editAuthorView(@PathVariable("authorId") Long id, @ModelAttribute Author author) {
+    public String updateAuthor(@PathVariable("authorId") Long id, @Valid @ModelAttribute Author author, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "lib/edit-author";
+        }
+
         authorService.update(id, author);
-        return "redirect:/lib-dashboard/authors-list";
+        return "redirect:/lib-dashboard/authors/page/1?phrase=&author_update=success";
     }
 
     @DeleteMapping
     @RequestMapping("/delete-author/{authorId}")
     public String deleteAuthor(@PathVariable("authorId") Long id) {
         authorService.deleteAuthorById(id);
-        return "redirect:/lib-dashboard";
+        return "redirect:/lib-dashboard/authors/page/1?phrase=&author_delete=success";
     }
 }

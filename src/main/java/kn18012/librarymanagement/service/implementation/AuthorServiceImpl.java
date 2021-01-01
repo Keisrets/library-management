@@ -5,6 +5,9 @@ import kn18012.librarymanagement.domain.Book;
 import kn18012.librarymanagement.repository.AuthorRepository;
 import kn18012.librarymanagement.repository.BookRepository;
 import kn18012.librarymanagement.service.AuthorService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,8 +31,13 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author findAuthorById(Long id) {
-        // handle null return
         return authorRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Page<Author> searchForAuthor(String phrase, int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, 30);
+        return authorRepository.findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContaining(phrase, phrase, pageable);
     }
 
     @Override
