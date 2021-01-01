@@ -1,6 +1,5 @@
 package kn18012.librarymanagement.repository;
 
-import kn18012.librarymanagement.domain.Loan;
 import kn18012.librarymanagement.domain.Role;
 import kn18012.librarymanagement.domain.User;
 import org.springframework.data.domain.Page;
