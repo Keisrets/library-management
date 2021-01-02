@@ -38,15 +38,17 @@ public class AdminController {
 
     @PostMapping("/create-user")
     public String createUser(@Valid @ModelAttribute User user, BindingResult bindingResult) {
+        // check for data validation errors
         if(bindingResult.hasErrors()) {
             return "adm/new-user";
         } else {
+            // check if email not taken
             if(userService.userExists(user.getEmail())) {
                 bindingResult.rejectValue("email", "error.user", "E-mail already taken!");
                 return "adm/new-user";
             }
         }
-
+        // set user role
         ArrayList<Role> roles = (ArrayList<Role>) user.getRoles();
         userService.saveUser(user, roles);
         return "redirect:/lib-admin/users/page/1/?phrase=&user_creation=success";
@@ -61,6 +63,7 @@ public class AdminController {
 
     @PostMapping("/update-user/{userId}")
     public String updateUser(@PathVariable("userId") Long id, @Valid @ModelAttribute User user, BindingResult bindingResult) {
+        // check for data validation errors
         if(bindingResult.hasErrors()) {
             return "adm/edit-user";
         }
@@ -78,9 +81,12 @@ public class AdminController {
 
     @GetMapping("/users/page/{pageNumber}")
     public String pagedUserView(@AuthenticationPrincipal User user, @PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
+        // create a new page with user search results
         Page<User> page = userService.searchForUser(phrase, pageNumber);
+        // get page content
         List<User> users = page.getContent();
 
+        // add attributes to template
         model.addAttribute("user", user);
         model.addAttribute("users", users);
         model.addAttribute("phrase", phrase);

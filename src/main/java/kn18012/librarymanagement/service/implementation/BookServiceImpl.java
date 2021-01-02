@@ -39,7 +39,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Page<Book> searchForBook(String phrase, int pageNumber) {
+        // set how many results are displayed per page
         Pageable pageable = PageRequest.of(pageNumber - 1, 30, Sort.by("id"));
+        // return book search results
         return bookRepository.findByTitleContainingIgnoreCase(phrase, pageable);
     }
 
@@ -56,6 +58,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book update(Long id, Book book) {
         Book b = bookRepository.findById(id).orElse(null);
+        // update book fields
         b.setTitle(book.getTitle());
         b.setAuthors(book.getAuthors());
         b.setLoans(book.getLoans());

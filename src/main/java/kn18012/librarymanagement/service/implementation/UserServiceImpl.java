@@ -29,9 +29,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public User registerUser(User user) {
+        // encrypt password using bcrypt hashing
         final String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
         ArrayList<Role> roles = new ArrayList<>();
+        // set user role to new user
         roles.add(Role.user);
         user.setRoles(roles);
 
@@ -42,7 +44,7 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         final Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent()) {
-            return (UserDetails) user.get();
+            return user.get();
         }
         else {
             throw new UsernameNotFoundException("User with that email not found");
@@ -66,7 +68,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> searchForUser(String phrase, int pageNumber) {
+        // set how many results are displayed per page
         Pageable pageable = PageRequest.of(pageNumber - 1, 30);
+        // return user search results
         return userRepository.findByEmailIgnoreCaseContainingOrFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContaining(phrase, phrase, phrase, pageable);
     }
 
@@ -92,10 +96,10 @@ public class UserServiceImpl implements UserService {
     }
 
     public User update(Long id, User user) {
-        // need to handle exception if user not found.
         User update = userRepository.findById(id).orElse(null);
-
+        // encrypt new password string
         final String newEncryptedPassword = passwordEncoder.encode(user.getPassword());
+        // update user fields with new values
         update.setFirstName(user.getFirstName());
         update.setLastName(user.getLastName());
         update.setEmail(user.getEmail());

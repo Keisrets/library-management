@@ -36,7 +36,9 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Page<Author> searchForAuthor(String phrase, int pageNumber) {
+        // set how many results are displayed per page
         Pageable pageable = PageRequest.of(pageNumber - 1, 30);
+        // return author search results
         return authorRepository.findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContaining(phrase, phrase, pageable);
     }
 
@@ -48,6 +50,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Author update(Long id, Author author) {
         Author toUpdate = authorRepository.findById(id).orElse(null);
+        // update author fields
         toUpdate.setFirstName(author.getFirstName());
         toUpdate.setLastName(author.getLastName());
         toUpdate.setBooks(author.getBooks());
@@ -58,21 +61,24 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public void deleteAuthorById(Long id) {
         Author toDelete = authorRepository.findById(id).orElse(null);
-        Set<Book> bookIds = toDelete.getBooks();
 
-        // delete author from associated book object author sets
-        if(bookIds.size() > 0) {
-            for (Book book : bookIds) {
-                Book toUpdate = bookRepository.findById(book.getId()).orElse(null);
-                if(toUpdate != null) {
-                    toUpdate.getAuthors().remove(toDelete);
+        if(toDelete != null) {
+            Set<Book> bookIds = toDelete.getBooks();
+
+            // firstly delete author from associated book object author sets
+            if(bookIds.size() > 0) {
+                for (Book book : bookIds) {
+                    Book toUpdate = bookRepository.findById(book.getId()).orElse(null);
+                    if(toUpdate != null) {
+                        toUpdate.getAuthors().remove(toDelete);
+                    }
+                    toUpdate = null;
                 }
-                toUpdate = null;
+                // delete books from author book set
+                toDelete.getBooks().clear();
             }
 
-            toDelete.getBooks().clear();
+            authorRepository.delete(toDelete);
         }
-
-        authorRepository.delete(toDelete);
     }
 }

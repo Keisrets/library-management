@@ -73,17 +73,12 @@ public class LoanController {
             return "lib/new-loan";
         }
 
+        // parse date input string to date object
         LocalDate endDate = LocalDate.parse(end_date);
         loan.setEnd_date(endDate);
 
         loanService.saveLoan(loan);
         return "redirect:/lib-dashboard/loans/page/1/?phrase=&loan_create=success";
-    }
-
-    @RequestMapping("/update-loan/{loanId}")
-    public String updateLoan(@PathVariable("loanId") Long id) {
-        loanService.update(id);
-        return "redirect:/lib-dashboard";
     }
 
     @DeleteMapping

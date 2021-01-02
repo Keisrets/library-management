@@ -28,9 +28,11 @@ public class BookController {
 
     @GetMapping("/books-list/page/{pageNumber}")
     public String pagedBookView(@AuthenticationPrincipal User user, @PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
+        // create a new page with book search results
         Page<Book> page = bookService.searchForBook(phrase, pageNumber);
+        // get page content
         List<Book> books = page.getContent();
-
+        // add attributes to template
         model.addAttribute("user", user);
         model.addAttribute("books", books);
         model.addAttribute("phrase", phrase);
@@ -70,6 +72,7 @@ public class BookController {
 
     @PostMapping("/update-book/{bookId}")
     public String updateBook(@PathVariable("bookId") Long id, @Valid @ModelAttribute Book book, BindingResult bindingResult) {
+        // check for data validation errors
         if(bindingResult.hasErrors()) {
             return "lib/new-book";
         }

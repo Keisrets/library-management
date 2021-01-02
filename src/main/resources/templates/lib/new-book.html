@@ -14,17 +14,15 @@
             <p class="txt-red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
         </div>
         <div class="form-group">
-            <label class="control-label" for="genre">Genre</label>
-            <select id="genre-drop" required th:field="*{genre}" class="selectpicker" multiple data-live-search="true">
+            <label class="control-label" for="genre-drop">Genre</label>
+            <select id="genre-drop" required th:field="*{genre}" class="selectpicker" data-live-search="true">
                 <option th:each="genre : ${genres}" th:value="${genre.id}"
                         th:text="${genre.genre}"></option>
-<!--                <option value="" selected></option>-->
             </select>
         </div>
         <div class="form-group">
             <label class="control-label">Author/s</label>
             <select required th:field="*{authors}" class="selectpicker" multiple data-live-search="true">
-<!--                <option value="" selected hidden disabled></option>-->
                 <option th:each="auth : ${allAuthors}" th:value="${auth.id}"
                         th:text="${auth.firstName + ' ' + auth.lastName}"></option>
 
@@ -50,5 +48,5 @@
 
 <script>
     var $c = jQuery.noConflict();
-    $c('#select1').append(`<option selected hidden value=""></option>`);
+    $c('#genre-drop').append(`<option selected disabled value=""></option>`);
 </script>

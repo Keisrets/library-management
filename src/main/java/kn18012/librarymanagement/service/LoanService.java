@@ -10,14 +10,9 @@ public interface LoanService {
 
     List<Loan> findLoansByUser(User user);
 
-    List<Loan> findAllLoans();
-
     Page<Loan> searchForLoan(String phrase, int pageNumber);
 
     Loan saveLoan(Loan loan);
 
-    Loan update(Long id);
-
     void deleteLoan(Long id);
-
 }

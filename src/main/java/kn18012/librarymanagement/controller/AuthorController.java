@@ -25,9 +25,11 @@ public class AuthorController {
 
     @GetMapping("/authors/page/{pageNumber}")
     public String pagedAuthorView(@PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
+        // create a new page with author search results
         Page<Author> page = authorService.searchForAuthor(phrase, pageNumber);
+        // get page content
         List<Author> authors = page.getContent();
-
+        // add attributes to template
         model.addAttribute("authors", authors);
         model.addAttribute("phrase", phrase);
         model.addAttribute("currentPage", pageNumber);
@@ -57,6 +59,7 @@ public class AuthorController {
 
     @PostMapping("/update-author/{authorId}")
     public String updateAuthor(@PathVariable("authorId") Long id, @Valid @ModelAttribute Author author, BindingResult bindingResult) {
+        // check for data validation errors
         if(bindingResult.hasErrors()) {
             return "lib/edit-author";
         }

@@ -35,6 +35,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(Principal principal, @AuthenticationPrincipal User user, Model model) {
+        // if user logged in, add user data to templates
         if(principal != null) model.addAttribute("user", user);
         return "index";
     }
@@ -56,7 +57,7 @@ public class IndexController {
 
     @PostMapping("/change-password")
     public String changePassword(@AuthenticationPrincipal User user, @RequestParam("pass1") String newPassword, @RequestParam("pass2") String newPasswordConfirm, Model model) {
-        // check for form errors
+        // check if both passwords match
         String message = PasswordCheck.PasswordValidate(newPassword, newPasswordConfirm);
         if(!message.equals("ok")) {
             model.addAttribute("error", new ErrorMessage(message));
@@ -73,9 +74,11 @@ public class IndexController {
 
     @GetMapping("/results/page/{pageNumber}")
     public String pagedSearchResults(@AuthenticationPrincipal User user, @PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
+        // create a new page with book search results
         Page<Book> page = bookService.searchForBook(phrase, pageNumber);
+        // get page content
         List<Book> books = page.getContent();
-
+        // add attributes to template
         model.addAttribute("user", user);
         model.addAttribute("books", books);
         model.addAttribute("phrase", phrase);
@@ -86,6 +89,7 @@ public class IndexController {
 
     @GetMapping("/book/{bookId}")
     public String singleBookView(@AuthenticationPrincipal User user, @PathVariable("bookId") Long bookId, Model model) {
+        // get data for single book template
         Book theBook = bookService.findById(bookId);
         model.addAttribute("book", theBook);
         model.addAttribute("user", user);
