@@ -25,7 +25,7 @@
                 <th scope="col">Book</th>
                 <th scope="col">Start date</th>
                 <th scope="col">End date</th>
-                <th scope="col">Actions</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -37,7 +37,7 @@
                 <td th:text="${loan.end_date}"></td>
                 <td>
                     <a class="float-left" th:href="@{/lib-dashboard/delete-loan/{loanId}(loanId=${loan.id})}"
-                       th:text="Delete"></a>
+                       th:text="X"></a>
                 </td>
             </tr>
             </tbody>

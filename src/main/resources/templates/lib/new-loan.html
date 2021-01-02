@@ -10,8 +10,7 @@
     <form th:action="@{/lib-dashboard/create-loan}" method="post" th:object="${loan}">
         <div class="form-group">
             <p>User</p>
-            <select class="selectpicker" data-live-search="true" th:field="*{user}">
-                <option selected value="">Select user...</option>
+            <select id="user-dropdown" class="selectpicker" data-live-search="true" th:field="*{user}">
                 <option name="userId" th:each="usr : ${allUsers}" th:value="${usr.id}"
                         th:text="${usr.firstName + ' ' + usr.lastName}"></option>
             </select>
@@ -19,13 +18,9 @@
         </div>
         <div class="form-group">
             <p>Book</p>
-            <select name="bookId" th:field="*{book}" class="selectpicker" data-live-search="true">
-                <option selected value="">Select book...</option>
-                <div th:each="bk : ${allBooks}">
-                    <div th:if="${bk.quantity > 0}">
-                        <option th:value="${bk.id}" th:text="${bk.title}"></option>
-                    </div>
-                </div>
+            <select id="book-dropdown" name="bookId" th:field="*{book}" class="selectpicker" data-live-search="true">
+                <option name="userId" th:each="bk : ${allBooks}" th:value="${bk.id}"
+                        th:text="${bk.title}"></option>
             </select>
             <p class="txt-red" th:text="${error_book}"></p>
         </div>
@@ -47,6 +42,9 @@
 
 <script>
 var $c = jQuery.noConflict();
+
+$c('#user-dropdown').append(`<option selected hidden disabled value=""></option>`);
+$c('#book-dropdown').append(`<option selected hidden disabled value=""></option>`);
 
 $c('#date-picker input').datepicker({
     format: "yyyy-mm-dd",

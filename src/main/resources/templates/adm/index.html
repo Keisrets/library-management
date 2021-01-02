@@ -27,11 +27,9 @@
             </thead>
             <tbody>
                 <tr scope="row" th:each="u : ${users}">
-                    <div th:unless="${u.id == user.id}">
-                        <td th:text="${u.firstName + ' ' + u.lastName}"></td>
-                        <td ><a th:href="@{/lib-admin/edit-user/{userId}(userId=${u.id})}" th:text="${u.email}" >  </a></td>
-                        <td th:text="${u.roles}"></td>
-                    </div>
+                    <td th:text="${u.firstName + ' ' + u.lastName}"></td>
+                    <td><a th:href="@{/lib-admin/edit-user/{userId}(userId=${u.id})}" th:text="${u.email}" >  </a></td>
+                    <td th:text="${u.roles}"></td>
                 </tr>
             </tbody>
         </table>
