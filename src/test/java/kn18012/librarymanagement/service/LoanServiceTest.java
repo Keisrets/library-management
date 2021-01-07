@@ -74,7 +74,6 @@ class LoanServiceTest {
         assertEquals(2, result.getBook().getQuantity());
     }
 
-    // test not working
     @Test
     void deleteLoan() {
         when(loanRepository.findById(l1.getId())).thenReturn(Optional.of(l1));

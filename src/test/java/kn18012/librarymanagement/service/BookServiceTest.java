@@ -1,6 +1,5 @@
 package kn18012.librarymanagement.service;
 
-import kn18012.librarymanagement.domain.Author;
 import kn18012.librarymanagement.domain.Book;
 import kn18012.librarymanagement.domain.Genre;
 import kn18012.librarymanagement.repository.BookRepository;
