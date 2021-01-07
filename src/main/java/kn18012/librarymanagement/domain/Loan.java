@@ -25,6 +25,17 @@ public class Loan {
     @Column(name = "end_date")
     private LocalDate end_date;
 
+    public Loan() {
+    }
+
+    public Loan(Long id, User user, Book book, LocalDate start_date, LocalDate end_date) {
+        this.id = id;
+        this.user = user;
+        this.book = book;
+        this.start_date = start_date;
+        this.end_date = end_date;
+    }
+
     public Long getId() {
         return id;
     }

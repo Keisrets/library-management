@@ -8,6 +8,16 @@ import java.util.Set;
 @Entity
 public class Author {
 
+    public Author() {
+    }
+
+    public Author(Long id, @NotBlank(message = "First name must not be empty!") String firstName, @NotBlank(message = "Last name must not be empty!") String lastName, Set<Book> books) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.books = books;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

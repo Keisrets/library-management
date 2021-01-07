@@ -40,6 +40,19 @@ public class User implements UserDetails {
     @OneToMany(targetEntity = Loan.class, cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Loan> loans = new HashSet<>();
 
+    public User() {
+    }
+
+    public User(Long id, @NotBlank(message = "First name can't be empty!") String firstName, @NotBlank(message = "Last name can't be empty!") String lastName, @Size(min = 5, max = 80, message = "Invalid e-mail!") String email, @Size(min = 6, max = 60, message = "Minimal password length is 6 characters!") String password, List<Role> roles, Set<Loan> loans) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+        this.loans = loans;
+    }
+
     public Long getId() {
         return id;
     }

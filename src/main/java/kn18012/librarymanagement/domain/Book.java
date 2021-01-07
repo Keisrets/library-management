@@ -42,6 +42,19 @@ public class Book {
     @Column(name = "quanitity")
     private int quantity;
 
+    public Book() {
+    }
+
+    public Book(Long id, @NotBlank(message = "Title must not be empty!") String title, Set<Author> authors, Set<Loan> loans, Genre genre, @NotBlank(message = "Description must not be empty!") String description, @Range(min = 0, max = 10000, message = "Quantity  must be larger than 0!") int quantity) {
+        this.id = id;
+        this.title = title;
+        this.authors = authors;
+        this.loans = loans;
+        this.genre = genre;
+        this.description = description;
+        this.quantity = quantity;
+    }
+
     public Long getId() {
         return id;
     }
