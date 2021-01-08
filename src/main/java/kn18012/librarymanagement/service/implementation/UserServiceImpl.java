@@ -1,6 +1,5 @@
 package kn18012.librarymanagement.service.implementation;
 
-import kn18012.librarymanagement.domain.Loan;
 import kn18012.librarymanagement.domain.Role;
 import kn18012.librarymanagement.domain.User;
 import kn18012.librarymanagement.repository.UserRepository;
@@ -29,7 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public User registerUser(User user) {
-        // encrypt password using bcrypt hashing
+        // encrypt password using bcrypt
         final String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
         ArrayList<Role> roles = new ArrayList<>();
@@ -87,7 +86,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public User saveUser(User user, ArrayList<Role> roles) {
+    public User saveUser(User user, List<Role> roles) {
+        // set user password and role
         final String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
         user.setRoles(roles);
@@ -96,18 +96,18 @@ public class UserServiceImpl implements UserService {
     }
 
     public User update(Long id, User user) {
-        User update = userRepository.findById(id).orElse(null);
+        User userToUpdate = userRepository.findById(id).orElse(null);
         // encrypt new password string
         final String newEncryptedPassword = passwordEncoder.encode(user.getPassword());
         // update user fields with new values
-        update.setFirstName(user.getFirstName());
-        update.setLastName(user.getLastName());
-        update.setEmail(user.getEmail());
-        update.setPassword(newEncryptedPassword);
-        update.setRoles(user.getRoles());
-        update.setLoans(user.getLoans());
+        userToUpdate.setFirstName(user.getFirstName());
+        userToUpdate.setLastName(user.getLastName());
+        userToUpdate.setEmail(user.getEmail());
+        userToUpdate.setPassword(newEncryptedPassword);
+        userToUpdate.setRoles(user.getRoles());
+        userToUpdate.setLoans(user.getLoans());
 
-        return userRepository.save(update);
+        return userRepository.save(userToUpdate);
     }
 
     public void deleteById(Long id) {

@@ -42,16 +42,17 @@ public class IndexController {
 
     @GetMapping("/my-loans")
     public String userLoansView(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("current_date", LocalDate.now());
+        // add user and loan data to model
         model.addAttribute("user", user);
         model.addAttribute("loans", loanService.findLoansByUser(user));
         return "usr/loans";
     }
 
     @GetMapping("/change-password")
-    public String showChangePasswordView(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("tempUser", new User());
-        model.addAttribute("user", user);
+    public String showChangePasswordView() {
+        // add a temporary user to model
+        // model.addAttribute("tempUser", new User());
+        // model.addAttribute("user", user);
         return "usr/change-password";
     }
 
@@ -63,23 +64,21 @@ public class IndexController {
             model.addAttribute("error", new ErrorMessage(message));
             return "usr/change-password";
         }
-
+        // update user with the new password
         user.setPassword(newPassword);
         userService.update(user.getId(), user);
-
         // redirect user based on role
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return RedirectUrlBuilder.newRedirectUrl(auth);
     }
 
     @GetMapping("/results/page/{pageNumber}")
-    public String pagedSearchResults(@AuthenticationPrincipal User user, @PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
+    public String pagedSearchResults(@PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
         // create a new page with book search results
         Page<Book> page = bookService.searchForBook(phrase, pageNumber);
         // get page content
         List<Book> books = page.getContent();
         // add attributes to template
-        model.addAttribute("user", user);
         model.addAttribute("books", books);
         model.addAttribute("phrase", phrase);
         model.addAttribute("currentPage", pageNumber);

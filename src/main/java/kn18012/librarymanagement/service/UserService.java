@@ -22,7 +22,7 @@ public interface UserService extends UserDetailsService {
 
     User registerUser(User user);
 
-    User saveUser(User user, ArrayList<Role> roles);
+    User saveUser(User user, List<Role> roles);
 
     User update(Long id, User user);
 

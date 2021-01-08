@@ -7,7 +7,6 @@
 <div th:replace="fragments/navbar"></div>
 <div class="container">
     <div class="container-section">
-        <!-- search form -->
         <form class="search-form" th:action="@{/results/page/1}" method="GET">
             <div class="input-group">
                 <input class="form-control search-form-text" type="text" name="phrase" placeholder="Search book by title" th:value="${phrase}">
@@ -16,7 +15,6 @@
                 </div>
             </div>
         </form>
-        <!-- list search results -->
         <div class="search-results" th:if="${books.size() >= 1}">
             <div class="book-card" th:each="book : ${books}">
                 <div class="card w-100">
@@ -28,7 +26,6 @@
                     </div>
                 </div>
             </div>
-            <!-- page navigation -->
             <div class="d-flex">
                 <ul class="pagination pagination-sm mx-auto page-numbers-block">
                     <a th:if="${currentPage > 1}"

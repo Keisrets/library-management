@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface LoanService {
 
+    Loan findLoanById(Long id);
+
     List<Loan> findLoansByUser(User user);
 
     Page<Loan> searchForLoan(String phrase, int pageNumber);

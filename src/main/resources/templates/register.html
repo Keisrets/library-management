@@ -10,22 +10,22 @@
     <form th:action="@{/register}" method="post" th:object="${user}">
         <div class="form-group">
             <label class="control-label" for="firstName">First name</label>
-            <input id="firstName" class="form-control" th:field="*{firstName}">
+            <input required id="firstName" class="form-control" th:field="*{firstName}">
             <p class="txt-red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
         </div>
         <div class="form-group">
             <label class="control-label" for="lastName">Last name</label>
-            <input id="lastName" class="form-control" th:field="*{lastName}">
+            <input required id="lastName" class="form-control" th:field="*{lastName}">
             <p class="txt-red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
         </div>
         <div class="form-group">
             <label class="control-label" for="email">E-mail</label>
-            <input id="email" class="form-control" th:field="*{email}">
+            <input required id="email" class="form-control" th:field="*{email}">
             <p class="txt-red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
         </div>
         <div class="form-group">
             <label class="control-label" for="password">Password</label>
-            <input id="password" type="password" class="form-control" th:field="*{password}">
+            <input required id="password" type="password" class="form-control" th:field="*{password}">
             <p class="txt-red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
         </div>
         <div class="form-group">

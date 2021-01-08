@@ -57,16 +57,16 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book update(Long id, Book book) {
-        Book b = bookRepository.findById(id).orElse(null);
+        Book bookToUpdate = bookRepository.findById(id).orElse(null);
         // update book fields
-        b.setTitle(book.getTitle());
-        b.setAuthors(book.getAuthors());
-        b.setLoans(book.getLoans());
-        b.setGenre(book.getGenre());
-        b.setDescription(book.getDescription());
-        b.setQuantity(book.getQuantity());
+        bookToUpdate.setTitle(book.getTitle());
+        bookToUpdate.setAuthors(book.getAuthors());
+        bookToUpdate.setLoans(book.getLoans());
+        bookToUpdate.setGenre(book.getGenre());
+        bookToUpdate.setDescription(book.getDescription());
+        bookToUpdate.setQuantity(book.getQuantity());
 
-        return bookRepository.save(b);
+        return bookRepository.save(bookToUpdate);
     }
 
     @Override

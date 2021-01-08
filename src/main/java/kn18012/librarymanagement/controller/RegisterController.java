@@ -30,6 +30,7 @@ public class RegisterController {
         if(bindingResult.hasErrors()) {
             return "register";
         } else {
+            // check if user with provided email already exists
             if(userService.userExists(user.getEmail())) {
                 bindingResult.rejectValue("email", "error.user", "E-mail already taken!");
                 return "register";

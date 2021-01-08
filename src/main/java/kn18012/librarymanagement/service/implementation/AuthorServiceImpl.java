@@ -49,36 +49,36 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author update(Long id, Author author) {
-        Author toUpdate = authorRepository.findById(id).orElse(null);
+        Author authorToUpdate = authorRepository.findById(id).orElse(null);
         // update author fields
-        toUpdate.setFirstName(author.getFirstName());
-        toUpdate.setLastName(author.getLastName());
-        toUpdate.setBooks(author.getBooks());
+        authorToUpdate.setFirstName(author.getFirstName());
+        authorToUpdate.setLastName(author.getLastName());
+        authorToUpdate.setBooks(author.getBooks());
 
-        return authorRepository.save(toUpdate);
+        return authorRepository.save(authorToUpdate);
     }
 
     @Override
     public void deleteAuthorById(Long id) {
-        Author toDelete = authorRepository.findById(id).orElse(null);
+        Author authorToDelete = authorRepository.findById(id).orElse(null);
 
-        if(toDelete != null) {
-            Set<Book> bookIds = toDelete.getBooks();
+        if(authorToDelete != null) {
+            Set<Book> bookIds = authorToDelete.getBooks();
 
             // firstly delete author from associated book object author sets
             if(bookIds.size() > 0) {
                 for (Book book : bookIds) {
                     Book toUpdate = bookRepository.findById(book.getId()).orElse(null);
                     if(toUpdate != null) {
-                        toUpdate.getAuthors().remove(toDelete);
+                        toUpdate.getAuthors().remove(authorToDelete);
                     }
                     toUpdate = null;
                 }
                 // delete books from author book set
-                toDelete.getBooks().clear();
+                authorToDelete.getBooks().clear();
             }
 
-            authorRepository.delete(toDelete);
+            authorRepository.delete(authorToDelete);
         }
     }
 }

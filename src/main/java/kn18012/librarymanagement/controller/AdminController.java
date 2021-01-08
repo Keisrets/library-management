@@ -11,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -29,8 +28,24 @@ public class AdminController {
         return "redirect:/lib-admin/users/page/1/?phrase=";
     }
 
+    @GetMapping("/users/page/{pageNumber}")
+    public String pagedUserView(@PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
+        // create a new page with user search results
+        Page<User> page = userService.searchForUser(phrase, pageNumber);
+        // get page content
+        List<User> users = page.getContent();
+
+        // add necessary attributes to template
+        model.addAttribute("users", users);
+        model.addAttribute("phrase", phrase);
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+        return "adm/index";
+    }
+
     @GetMapping("/new-user")
     public String addUserView(Model model) {
+        // add new user object and all possible roles to model
         model.addAttribute("newUser", new User());
         model.addAttribute("roles", userService.findAllRoles());
         return "adm/new-user";
@@ -49,49 +64,51 @@ public class AdminController {
             }
         }
         // set user role
-        ArrayList<Role> roles = (ArrayList<Role>) user.getRoles();
+        List<Role> roles = user.getRoles();
         userService.saveUser(user, roles);
         return "redirect:/lib-admin/users/page/1/?phrase=&user_creation=success";
     }
 
     @GetMapping("/edit-user/{userId}")
     public String editUserView(@AuthenticationPrincipal User user, @PathVariable("userId") Long id, Model model) {
-        model.addAttribute("user", user);
-        model.addAttribute("userToEdit", userService.findById(id));
-        return "adm/edit-user";
+        // if user not found by id, return invalid request
+        User userToEdit = userService.findById(id);
+        if(userToEdit == null) {
+            return "error-page";
+        } else {
+            // add current user and userToEdit to model
+            model.addAttribute("user", user);
+            model.addAttribute("userToEdit", userService.findById(id));
+            return "adm/edit-user";
+        }
     }
 
     @PostMapping("/update-user/{userId}")
     public String updateUser(@PathVariable("userId") Long id, @Valid @ModelAttribute User user, BindingResult bindingResult) {
         // check for data validation errors
-        if(bindingResult.hasErrors()) {
+        if(bindingResult.hasErrors())
             return "adm/edit-user";
-        }
 
-        userService.update(id, user);
-        return "redirect:/lib-admin/users/page/1/?phrase=&user_update=success";
+        // check if user is in the data base
+        User test = userService.findById(id);
+        if(test == null) {
+            return "error-page";
+        } else {
+            userService.update(id, user);
+            return "redirect:/lib-admin/users/page/1/?phrase=&user_update=success";
+        }
     }
 
     @DeleteMapping
     @RequestMapping("/delete-user/{userId}")
     public String deleteUser(@PathVariable("userId") Long id) {
-        userService.deleteById(id);
-        return "redirect:/lib-admin/users/page/1/?phrase=&user_delete=success";
-    }
-
-    @GetMapping("/users/page/{pageNumber}")
-    public String pagedUserView(@AuthenticationPrincipal User user, @PathVariable("pageNumber") int pageNumber, @RequestParam("phrase") String phrase, Model model) {
-        // create a new page with user search results
-        Page<User> page = userService.searchForUser(phrase, pageNumber);
-        // get page content
-        List<User> users = page.getContent();
-
-        // add attributes to template
-        model.addAttribute("user", user);
-        model.addAttribute("users", users);
-        model.addAttribute("phrase", phrase);
-        model.addAttribute("currentPage", pageNumber);
-        model.addAttribute("totalPages", page.getTotalPages());
-        return "adm/index";
+        // check if user is in data base
+        User test = userService.findById(id);
+        if(test == null) {
+            return "error-page";
+        } else {
+            userService.deleteById(id);
+            return "redirect:/lib-admin/users/page/1/?phrase=&user_delete=success";
+        }
     }
 }

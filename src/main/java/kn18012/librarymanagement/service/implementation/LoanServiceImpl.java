@@ -28,6 +28,11 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
+    public Loan findLoanById(Long id) {
+        return loanRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public List<Loan> findLoansByUser(User user) {
         return loanRepository.findLoansByUser(user);
     }
@@ -43,12 +48,12 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public Loan saveLoan(Loan loan) {
         // get book assigned to loan
-        Book updatedBook = bookRepository.findById(loan.getBook().getId()).orElse(null);
-        if(updatedBook != null) {
-            if(updatedBook.getQuantity() > 0) {
+        Book bookToUpdate = bookRepository.findById(loan.getBook().getId()).orElse(null);
+        if(bookToUpdate != null) {
+            if(bookToUpdate.getQuantity() > 0) {
                 // if book available, decrease quantity
-                updatedBook.setQuantity(updatedBook.getQuantity() - 1);
-                bookService.update(loan.getBook().getId(), updatedBook);
+                bookToUpdate.setQuantity(bookToUpdate.getQuantity() - 1);
+                bookService.update(loan.getBook().getId(), bookToUpdate);
                 // set today as loan start date
                 loan.setStart_date(LocalDate.now());
                 return loanRepository.save(loan);

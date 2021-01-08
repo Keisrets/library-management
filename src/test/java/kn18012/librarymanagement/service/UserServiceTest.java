@@ -89,17 +89,13 @@ class UserServiceTest {
     @Test
     void findById() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(u1));
-        when(userRepository.findById(2L)).thenReturn(Optional.of(l1));
-        when(userRepository.findById(3L)).thenReturn(Optional.of(a1));
 
         User result1 = userService.findById(1L);
-        User result2 = userService.findById(2L);
-        User result3 = userService.findById(3L);
+        User result2 = userService.findById(4L);
 
-        verify(userRepository, times(3)).findById(anyLong());
+        verify(userRepository, times(2)).findById(anyLong());
         assertEquals(1L, result1.getId());
-        assertEquals(2L, result2.getId());
-        assertEquals(3L, result3.getId());
+        assertNull(result2);
     }
 
     @Test
@@ -116,11 +112,12 @@ class UserServiceTest {
 
     @Test
     void registerUser() {
-        when(userRepository.save(u1)).thenReturn(u1);
-        User result = userService.registerUser(u1);
+        User u2 = new User(6L, "test", "test", "test@test.lv", "pass123", new ArrayList<>(), new HashSet<>());
+        when(userRepository.save(u2)).thenReturn(u2);
+        User result = userService.registerUser(u2);
         verify(userRepository, times(1)).save(any(User.class));
         assertEquals(userRole.get(0), result.getRoles().get(0));
-        assertEquals(u1, result);
+        assertEquals(u2, result);
     }
 
     @Test

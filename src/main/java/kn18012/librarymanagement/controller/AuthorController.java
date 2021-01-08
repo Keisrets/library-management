@@ -1,10 +1,8 @@
 package kn18012.librarymanagement.controller;
 
 import kn18012.librarymanagement.domain.Author;
-import kn18012.librarymanagement.domain.User;
 import kn18012.librarymanagement.service.AuthorService;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,23 +36,32 @@ public class AuthorController {
     }
 
     @GetMapping("/new-author")
-    public String addAuthorView(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("user", user);
+    public String addAuthorView(Model model) {
         model.addAttribute("author", new Author());
         return "lib/new-author";
     }
 
     @PostMapping("/create-author")
-    public String createAuthor(@ModelAttribute Author author) {
+    public String createAuthor(@Valid @ModelAttribute Author author, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "lib/new-author";
+        }
         authorService.save(author);
         return "redirect:/lib-dashboard/authors/page/1?phrase=&author_create=success";
     }
 
     @GetMapping("/edit-author/{authorId}")
-    public String editAuthorView(@AuthenticationPrincipal User user, @PathVariable("authorId") Long id, Model model) {
-        model.addAttribute("user", user);
-        model.addAttribute("author", authorService.findAuthorById(id));
-        return "lib/edit-author";
+    public String editAuthorView(@PathVariable("authorId") Long id, Model model) {
+        //model.addAttribute("user", user);
+
+        // check if user exists in data base
+        Author authorToEdit = authorService.findAuthorById(id);
+        if(authorToEdit == null) {
+            return "error-page";
+        } else {
+            model.addAttribute("author", authorService.findAuthorById(id));
+            return "lib/edit-author";
+        }
     }
 
     @PostMapping("/update-author/{authorId}")
@@ -64,14 +71,26 @@ public class AuthorController {
             return "lib/edit-author";
         }
 
-        authorService.update(id, author);
-        return "redirect:/lib-dashboard/authors/page/1?phrase=&author_update=success";
+        // check if user exists in database
+        Author authorToUpdate = authorService.findAuthorById(id);
+        if(authorToUpdate == null) {
+            return "error-page";
+        } else {
+            authorService.update(id, author);
+            return "redirect:/lib-dashboard/authors/page/1?phrase=&author_update=success";
+        }
     }
 
     @DeleteMapping
     @RequestMapping("/delete-author/{authorId}")
     public String deleteAuthor(@PathVariable("authorId") Long id) {
-        authorService.deleteAuthorById(id);
-        return "redirect:/lib-dashboard/authors/page/1?phrase=&author_delete=success";
+        // check if user exists in data base
+        Author authorToDelete = authorService.findAuthorById(id);
+        if(authorToDelete == null) {
+            return "error-page";
+        } else {
+            authorService.deleteAuthorById(id);
+            return "redirect:/lib-dashboard/authors/page/1?phrase=&author_delete=success";
+        }
     }
 }
